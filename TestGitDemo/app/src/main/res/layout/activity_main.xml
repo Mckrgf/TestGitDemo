@@ -14,6 +14,14 @@
         android:layout_alignParentTop="true"
         android:text="fuck the world in 101!" />
 
+    <com.god.yb.testgitdemo.MyView.MyScrollView
+        android:id="@+id/my_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/colorAccent"
+        android:layout_alignParentBottom="true"
+        />
+
     <Button
         android:id="@+id/bt1"
         android:layout_width="match_parent"
@@ -39,4 +47,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv_list"/>
+
 </LinearLayout>
