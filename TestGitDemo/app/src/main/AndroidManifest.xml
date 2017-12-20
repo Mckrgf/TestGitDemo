@@ -15,6 +15,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".Service.LocalService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".Service.RemoteService"
+            android:enabled="true"
+            android:process=":remote"
+            android:exported="true"></service>
     </application>
 
 </manifest>
