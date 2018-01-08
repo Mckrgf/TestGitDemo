@@ -33,37 +33,12 @@ public class MyScrollView extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public MyScrollView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-//        int x = (int) event.getRawX();
-//        int y = (int) event.getRawY();
-//        mLastX = x;
-//        mLastY = y;
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_UP:
-//                break;
-//            case MotionEvent.ACTION_DOWN:
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                int deltaX = x - mLastX;
-//                int deltaY = y - mLastY;
-//                Log.i(TAG,"move x:" + deltaX + "move y: " + deltaY);
-//                int transX = (int) (ViewHelper.getTranslationX(this) + deltaX);
-//                int transY = (int) (ViewHelper.getTranslationY(this) + deltaY);
-//                ViewHelper.setTranslationX(this,transX);
-//                ViewHelper.setTranslationY(this,transY);
-//                break;
-//        }
-//        return true;
         //获取手指当前的坐标
         int x = (int) event.getRawX();
         int y = (int) event.getRawY();
+        Log.i(TAG,"现在的Y轴坐标:" + y);
 
         switch (event.getAction()){
             case MotionEvent.ACTION_MOVE:
@@ -71,7 +46,9 @@ public class MyScrollView extends View {
                 int deltaX= x - mLastX;
                 int deltaY = y- mLastY;
 
-                Log.d("shj--","move ,deltax:"+deltaX+" deltay:"+deltaY);
+
+
+                Log.d(TAG,"move ,deltax:"+deltaX+" deltay:"+deltaY);
 
                 //用nineoldandroids实现
                 int translationx = (int) (ViewHelper.getTranslationX(this)+deltaX);
