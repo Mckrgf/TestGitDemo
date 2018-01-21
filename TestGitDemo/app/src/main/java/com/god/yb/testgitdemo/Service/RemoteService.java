@@ -20,23 +20,22 @@ public class RemoteService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        android.os.Debug.waitForDebugger();
         Log.i(TAG,TAG+": " + "onCreate");
-        Toast.makeText(this,"onCreate",Toast.LENGTH_SHORT);
+        Toast.makeText(this,"onCreate",Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG,TAG+": " + "onStartCommand");
-        Toast.makeText(this,"onStartCommand",Toast.LENGTH_SHORT);
+        Toast.makeText(this,"onStartCommand",Toast.LENGTH_SHORT).show();
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         Log.i(TAG,TAG+": " + "onDestroy");
-        Toast.makeText(this,"onDestroy",Toast.LENGTH_SHORT);
+        Toast.makeText(this,"onDestroy",Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 }

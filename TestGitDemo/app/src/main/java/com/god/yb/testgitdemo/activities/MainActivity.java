@@ -1,4 +1,4 @@
-package com.god.yb.testgitdemo;
+package com.god.yb.testgitdemo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Service.LocalService;
 import com.god.yb.testgitdemo.Service.RemoteService;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -25,7 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.rv_list)
     RecyclerView rvList;
