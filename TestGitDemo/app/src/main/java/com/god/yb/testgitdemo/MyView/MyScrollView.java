@@ -33,29 +33,35 @@ public class MyScrollView extends View {
         super(context, attrs, defStyleAttr);
     }
 
+    private interface OnBottomListener {
+        void setOnBottomListener();
+    }
+
+    public void setOnButtomListener(OnBottomListener onButtomListener) {
+        onButtomListener.setOnBottomListener();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //获取手指当前的坐标
         int x = (int) event.getRawX();
         int y = (int) event.getRawY();
-        Log.i(TAG,"现在的Y轴坐标:" + y);
+        Log.i(TAG, "现在的Y轴坐标:" + y);
 
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:
                 //现在手指的坐标 - 上次view的坐标
-                int deltaX= x - mLastX;
-                int deltaY = y- mLastY;
+                int deltaX = x - mLastX;
+                int deltaY = y - mLastY;
 
+                Log.d(TAG, "move ,deltax:" + deltaX + " deltay:" + deltaY);
 
+                int translationy = (int) (ViewHelper.getTranslationY(this) + deltaY);
+                ViewHelper.setTranslationY(this, translationy);
 
-                Log.d(TAG,"move ,deltax:"+deltaX+" deltay:"+deltaY);
-
-                //用nineoldandroids实现
-                int translationx = (int) (ViewHelper.getTranslationX(this)+deltaX);
-                int translationy = (int) (ViewHelper.getTranslationY(this)+deltaY);
+                //x轴不可滑动
+//                int translationx = (int) (ViewHelper.getTranslationX(this)+deltaX);
 //                ViewHelper.setTranslationX(this,translationx);
-                ViewHelper.setTranslationY(this,translationy);
-
                 break;
         }
         mLastY = y;
