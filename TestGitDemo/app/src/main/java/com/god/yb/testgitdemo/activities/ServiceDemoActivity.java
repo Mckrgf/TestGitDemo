@@ -26,7 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class ServiceDemoActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.rv_list)
     RecyclerView rvList;
@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.bt4)
     Button bt4;
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "ServiceDemoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

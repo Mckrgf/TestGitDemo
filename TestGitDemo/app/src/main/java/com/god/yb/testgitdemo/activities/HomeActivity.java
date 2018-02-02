@@ -29,7 +29,8 @@ public class HomeActivity extends BaseActivity {
     Button bt3;
 
     private static final String TAG = "HomeActivity";
-    private Intent intent;//跳转下一个页面,不用每次都new了
+    private Intent intent = new Intent();
+    //跳转下一个页面,不用每次都new了
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,25 +44,30 @@ public class HomeActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.bt1:
                 Log.i(TAG, "Service模块");
-                intent = new Intent(getContext(), MainActivity.class);
+                intent.setClass(this, ServiceDemoActivity.class);
                 startActivity(intent);
                 break;
             case R.id.bt2:
                 Log.i(TAG, "Activity模块");
-//                intent = new Intent(getContext(),HomeActivity.class);
-//                startActivity(intent);
+                intent.setClass(getContext(), HomeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.bt3:
-                DaoSession daoSession = ((App)getApplication()).getDaoSession();
+                DaoSession daoSession = ((App) getApplication()).getDaoSession();
                 UserDao userDao = daoSession.getUserDao();
                 User user = new User();
                 user.setPassword("123");
                 user.setUsername(MyDateUtils.getCurTime(""));
                 userDao.insert(user);
-                Log.i(TAG,"Add a User bean to Datebase" + user.getUsername());
+                Log.i(TAG, "Add a User bean to Datebase" + user.getUsername());
 
                 List<User> users = userDao.queryBuilder().build().list();
-                Log.i(TAG,"User list : " + user.toString());
+                for (int i = 0; i < users.size(); i++) {
+                    Log.i(TAG, i + "用户" + users.get(i).getUsername() + "\n");
+                }
+                intent.setClass(getContext(), DateBaseActivity.class);
+                startActivity(intent);
+
                 break;
         }
     }

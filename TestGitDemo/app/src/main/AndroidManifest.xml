@@ -10,9 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
+            android:name=".activities.ServiceDemoActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
 
         <service
             android:name=".Service.LocalService"
@@ -28,9 +27,11 @@
         <activity android:name=".activities.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.DateBaseActivity"></activity>
     </application>
 
 </manifest>
