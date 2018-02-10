@@ -27,6 +27,8 @@ public class HomeActivity extends BaseActivity {
     Button bt2;
     @BindView(R.id.bt3)
     Button bt3;
+    @BindView(R.id.bt4)
+    Button bt4;
 
     private static final String TAG = "HomeActivity";
     private Intent intent = new Intent();
@@ -39,7 +41,7 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -68,6 +70,11 @@ public class HomeActivity extends BaseActivity {
                 intent.setClass(getContext(), DateBaseActivity.class);
                 startActivity(intent);
 
+                break;
+            case R.id.bt4:
+                Log.i(TAG, "闲杂模块");
+                intent.setClass(getContext(), OtherActivity.class);
+                startActivity(intent);
                 break;
         }
     }

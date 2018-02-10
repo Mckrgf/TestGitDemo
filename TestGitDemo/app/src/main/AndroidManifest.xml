@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.ServiceDemoActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <service
             android:name=".Service.LocalService"
@@ -31,7 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DateBaseActivity"></activity>
+        <activity android:name=".activities.DateBaseActivity" />
+        <activity android:name=".activities.OtherActivity"></activity>
     </application>
 
 </manifest>
