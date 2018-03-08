@@ -7,8 +7,12 @@ import android.view.MenuItem;
 
 import com.god.yb.testgitdemo.R;
 
-public class OtherActivity extends BaseActivity {
-    private static final String TAG = "OtherActivity";
+/**
+ * 包含Fragment、菜单按钮
+ */
+
+public class FragmentActivity extends BaseActivity {
+    private static final String TAG = "FragmentActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

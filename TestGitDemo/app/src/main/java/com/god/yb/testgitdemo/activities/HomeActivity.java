@@ -12,6 +12,7 @@ import com.god.yb.testgitdemo.DBBean.User;
 import com.god.yb.testgitdemo.DBBean.UserDao;
 import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Utils.MyDateUtils;
+import com.god.yb.testgitdemo.Utils.ToastUtil;
 
 import java.util.List;
 
@@ -72,10 +73,26 @@ public class HomeActivity extends BaseActivity {
 
                 break;
             case R.id.bt4:
-                Log.i(TAG, "闲杂模块");
-                intent.setClass(getContext(), OtherActivity.class);
+                Log.i(TAG, "Fragment模块");
+                intent.setClass(getContext(), FragmentActivity.class);
                 startActivity(intent);
                 break;
         }
+    }
+
+    private long lastMillion;
+
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - lastMillion >= 2000)  {
+            //大于2秒，不退出
+            Log.i(TAG,"大于两秒");
+            ToastUtil.showToast(this, "再点一次退出！");
+        }else {
+            System.exit(0);
+        }
+
+        lastMillion = System.currentTimeMillis();
     }
 }
