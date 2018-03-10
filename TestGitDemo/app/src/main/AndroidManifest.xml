@@ -32,7 +32,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.DateBaseActivity" />
-        <activity android:name=".activities.FragmentActivity"></activity>
+        <activity android:name=".activities.FragmentActivity" />
+        <activity android:name=".activities.NavigationActivity"></activity>
     </application>
 
 </manifest>

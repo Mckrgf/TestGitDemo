@@ -17,12 +17,10 @@ import com.god.yb.testgitdemo.R;
  * Description xxx
  */
 
-public class FragmentA extends Fragment {
+public class FragmentB extends Fragment {
     private String mPara;
     private Activity mActivity;
     private static String Fragment_key = "test_key";
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -38,8 +36,8 @@ public class FragmentA extends Fragment {
         view.setText(mPara); return root;
     }
 
-    public static FragmentA newInstense(String mPara) {
-        FragmentA fragmentA = new FragmentA();
+    public static FragmentB newInstense(String mPara) {
+        FragmentB fragmentA = new FragmentB();
         Bundle bundle = new Bundle();
         bundle.putString(Fragment_key,mPara);
         fragmentA.setArguments(bundle);
