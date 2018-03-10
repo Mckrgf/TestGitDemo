@@ -29,6 +29,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
+            android:text="点击改变F2文字内容"
+            android:textColor="@color/white"
             android:layout_weight="1"/>
         <Button
             android:background="@drawable/nav_bottom_btn_selector"

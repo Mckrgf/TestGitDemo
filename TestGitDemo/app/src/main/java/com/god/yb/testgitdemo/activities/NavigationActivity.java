@@ -28,6 +28,7 @@ public class NavigationActivity extends BaseActivity implements View.OnClickList
     Button btNav2;
     @BindView(R.id.bt_nav_3)
     Button btNav3;
+    private FragmentB fragmentB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class NavigationActivity extends BaseActivity implements View.OnClickList
         ButterKnife.bind(this);
         initView();
         initData();
+
     }
 
     private void initView() {
@@ -61,8 +63,8 @@ public class NavigationActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initData() {
-        FragmentA fragmentA = FragmentA.newInstense("我是FA");
-        FragmentB fragmentB = FragmentB.newInstense("我是FB");
+        FragmentA fragmentA = FragmentA.newInstense("点击以达到通过Fragment改变Activity的功能，即改变Activity中第一个button的文字内容");
+        fragmentB = FragmentB.newInstense("我是FB");
         FragmentC fragmentC = FragmentC.newInstense("我是FC");
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(fragmentA);
@@ -85,6 +87,7 @@ public class NavigationActivity extends BaseActivity implements View.OnClickList
             case R.id.bt_nav_2:
                 vpNav.setCurrentItem(1);
                 setBtnBack(1);
+                fragmentB.changeContent("通过A改变F");
                 break;
             case R.id.bt_nav_3:
                 vpNav.setCurrentItem(2);

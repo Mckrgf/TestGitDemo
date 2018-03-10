@@ -21,6 +21,8 @@ public class FragmentB extends Fragment {
     private String mPara;
     private Activity mActivity;
     private static String Fragment_key = "test_key";
+    private TextView view;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -32,7 +34,7 @@ public class FragmentB extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_2, container, false);
-        TextView view = root.findViewById(R.id.tv_fragment_a_content_a);
+        view = root.findViewById(R.id.tv_fragment_a_content_a);
         view.setText(mPara); return root;
     }
 
@@ -42,5 +44,9 @@ public class FragmentB extends Fragment {
         bundle.putString(Fragment_key,mPara);
         fragmentA.setArguments(bundle);
         return fragmentA;
+    }
+
+    public void changeContent(String string) {
+        view.setText(string);
     }
 }
