@@ -71,6 +71,7 @@ public class NavigationActivity extends BaseActivity implements View.OnClickList
         MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
         myViewPagerAdapter.setFragments(fragmentList);
         vpNav.setAdapter(myViewPagerAdapter);
+        btNav1.setSelected(true);
     }
 
     @Override

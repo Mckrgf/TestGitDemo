@@ -31,7 +31,7 @@ public class FragmentB extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_1, container, false);
+        View root = inflater.inflate(R.layout.fragment_2, container, false);
         TextView view = root.findViewById(R.id.tv_fragment_a_content_a);
         view.setText(mPara); return root;
     }
