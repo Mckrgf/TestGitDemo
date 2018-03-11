@@ -31,16 +31,25 @@ dependencies {
     //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26.1.0'
     testCompile 'junit:junit:4.12'
+
     //base adapter
     compile 'com.zhy:base-rvadapter:3.0.3'
+
     //butterknife
     compile 'com.jakewharton:butterknife:8.8.1'
+
+    //黄油刀
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //动画
     compile files('libs/nineoldandroids-2.4.0.jar')
+
     compile files('libs/gson-2.2.4.jar')
 
-    compile 'com.android.support:design:26.1.0'
 
     compile 'org.greenrobot:greendao:3.2.2' // add library
     compile 'net.zetetic:android-database-sqlcipher:3.5.4@aar'
+
+    //网络框架
+    compile 'com.lzy.net:okgo:3.0.4'
 }
