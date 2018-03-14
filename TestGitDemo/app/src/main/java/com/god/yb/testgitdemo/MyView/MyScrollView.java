@@ -42,6 +42,11 @@ public class MyScrollView extends View {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         //获取手指当前的坐标
         int x = (int) event.getRawX();

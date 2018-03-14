@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.god.yb.testgitdemo.activities.ThreadPoolsActivity">
+
+    <Button
+        android:id="@+id/bt_thread_a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fixedThreadPool开启"/>
+    <Button
+        android:id="@+id/bt_thread_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CacheThreadPool开启"/>
+    <Button
+        android:id="@+id/bt_thread_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SchmedThreadPool开启"/>
+    <Button
+        android:id="@+id/bt_thread_d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SingleThreadPool开启"/>
+    <Button
+        android:id="@+id/bt_execute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开启线程池"/>
+
+</LinearLayout>

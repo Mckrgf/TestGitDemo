@@ -32,6 +32,8 @@ public class HomeActivity extends BaseActivity {
     Button bt4;
     @BindView(R.id.bt5)
     Button bt5;
+    @BindView(R.id.bt6)
+    Button bt6;
 
     private static final String TAG = "HomeActivity";
     private Intent intent = new Intent();
@@ -44,7 +46,7 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -82,6 +84,11 @@ public class HomeActivity extends BaseActivity {
             case R.id.bt5:
                 Log.i(TAG, "Fragment模块");
                 intent.setClass(getContext(), NavigationActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.bt6:
+                Log.i(TAG, "线程池");
+                intent.setClass(getContext(), ThreadPoolsActivity.class);
                 startActivity(intent);
                 break;
         }

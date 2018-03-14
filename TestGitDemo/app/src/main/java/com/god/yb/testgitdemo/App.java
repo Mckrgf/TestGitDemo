@@ -1,9 +1,11 @@
 package com.god.yb.testgitdemo;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.god.yb.testgitdemo.DBBean.DaoMaster;
 import com.god.yb.testgitdemo.DBBean.DaoSession;
+import com.god.yb.testgitdemo.Utils.AppUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -31,12 +33,15 @@ public class App extends Application {
     public static final boolean ENCRYPTED = true;
 
     private DaoSession daoSession;
+    private static final String TAG = "App";
 
     @Override
     public void onCreate() {
         super.onCreate();
         initDB();
         initHttp();
+
+        Log.i(TAG,"当前的进程名字是：" + AppUtils.getCurProcessName(this));
     }
 
     private void initDB() {

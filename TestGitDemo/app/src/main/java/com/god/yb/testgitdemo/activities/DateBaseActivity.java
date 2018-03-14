@@ -1,11 +1,9 @@
 package com.god.yb.testgitdemo.activities;
 
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.god.yb.testgitdemo.Adapter.UserListAdapter;
@@ -15,7 +13,6 @@ import com.god.yb.testgitdemo.DBBean.UserDao;
 import com.god.yb.testgitdemo.OkHttp.CommonCallBack;
 import com.god.yb.testgitdemo.R;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.model.Response;
 
 import java.util.HashMap;
@@ -54,12 +51,12 @@ public class DateBaseActivity extends BaseActivity {
         userListAdapter.setData(user_list);
         rvUserList.setAdapter(userListAdapter);
 
-        OkGo.get("https://news-at.zhihu.com/api/4/news/latest")
+        OkGo.<HashMap>get("https://news-at.zhihu.com/api/4/news/latest")
                 .tag(this)
-                .execute(new CommonCallBack<Object>(true,getContext()) {
+                .execute(new CommonCallBack<HashMap>(true,getContext()) {
                     @Override
-                    public void onSuccess(Response<Object> response) {
-                        HashMap map = (HashMap) response.body();
+                    public void onSuccess(Response<HashMap> response) {
+                        HashMap map =  response.body();
                         Log.i(TAG,map.toString());
                         Toast.makeText(getContext(),String.valueOf(map),Toast.LENGTH_SHORT).show();
                     }
