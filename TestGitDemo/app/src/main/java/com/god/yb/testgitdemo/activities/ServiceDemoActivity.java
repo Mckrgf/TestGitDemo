@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ScrollView;
 
 import com.god.yb.testgitdemo.MyView.MyScrollView;
+import com.god.yb.testgitdemo.MyView.ParentScrollView;
 import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Service.LocalService;
 import com.god.yb.testgitdemo.Service.RemoteService;
@@ -44,7 +45,7 @@ public class ServiceDemoActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.my_view)
     MyScrollView myView;
     @BindView(R.id.activity_main)
-    ScrollView activityMain;
+    ParentScrollView activityMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

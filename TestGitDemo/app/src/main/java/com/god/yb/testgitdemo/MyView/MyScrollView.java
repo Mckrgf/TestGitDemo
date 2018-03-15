@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.nineoldandroids.view.ViewHelper;
 
@@ -15,7 +16,7 @@ import com.nineoldandroids.view.ViewHelper;
  * Created by yaobing on 2017/12/17.
  */
 
-public class MyScrollView extends View {
+public class MyScrollView extends ViewGroup {
 
     int mLastX;
     int mLastY;
@@ -47,11 +48,19 @@ public class MyScrollView extends View {
     }
 
     @Override
+    protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
+
+    }
+
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         //获取手指当前的坐标
         int x = (int) event.getRawX();
         int y = (int) event.getRawY();
         Log.i(TAG, "现在的Y轴坐标:" + y);
+        requestDisallowInterceptTouchEvent(true);
+
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:
@@ -67,6 +76,7 @@ public class MyScrollView extends View {
                 //x轴不可滑动
 //                int translationx = (int) (ViewHelper.getTranslationX(this)+deltaX);
 //                ViewHelper.setTranslationX(this,translationx);
+
                 break;
         }
         mLastY = y;
