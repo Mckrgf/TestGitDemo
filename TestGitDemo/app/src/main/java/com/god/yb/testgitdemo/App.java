@@ -1,6 +1,7 @@
 package com.god.yb.testgitdemo;
 
 import android.app.Application;
+import android.os.Environment;
 import android.util.Log;
 
 import com.god.yb.testgitdemo.DBBean.DaoMaster;
@@ -91,4 +92,8 @@ public class App extends Application {
     public DaoSession getDaoSession() {
         return daoSession;
     }
+
+    //测试文件的输入输出（以流的方式）所使用的路径
+    public static String commonPath = Environment.getExternalStorageDirectory() + "/testgitdemo";
+    public static String cachePath = commonPath + "/cachefile.txt";
 }
