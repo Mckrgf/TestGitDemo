@@ -1,6 +1,7 @@
 package com.god.yb.testgitdemo.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,10 @@ import com.god.yb.testgitdemo.Book;
 import com.god.yb.testgitdemo.R;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 
 /**
@@ -27,7 +32,7 @@ public class ProcessAActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process_a);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission_group.STORAGE},1);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission_group.STORAGE}, 1);
     }
 
     @Override
@@ -40,17 +45,37 @@ public class ProcessAActivity extends BaseActivity {
 //                }else {
 //                    Toast.makeText(getApp(),"申请失败",Toast.LENGTH_SHORT).show();
 //                }
-                Book book = new Book("gaga",001);
+                Book book = new Book("gaga", 001);
                 File file = new File(App.commonPath);
                 if (!file.exists()) {
                     try {
                         file.mkdirs();
-                    }catch (Exception e) {
-                        Log.i(TAG,e.toString());
+                        File file1 = new File(App.cachePath);
+                        write(book, file1);
+
+                    } catch (Exception e) {
+                        Log.i(TAG, e.toString());
+                    }
+
+                } else {
+                    try {
+                        file = new File(App.cachePath);
+                        write(book, file);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
                 }
                 break;
         }
+    }
+
+    private void write(Book book, File file1) throws IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream(file1, true);
+        fileOutputStream.write(book.BookName.getBytes());
+        fileOutputStream.write(97);
+        fileOutputStream.write(98);
+        fileOutputStream.write(99);
+        fileOutputStream.close();
     }
 }
