@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.god.yb.testgitdemo.App;
 import com.god.yb.testgitdemo.DBBean.DaoSession;
@@ -13,6 +14,7 @@ import com.god.yb.testgitdemo.DBBean.UserDao;
 import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Utils.MyDateUtils;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 import java.util.List;
 
@@ -36,17 +38,35 @@ public class HomeActivity extends BaseActivity {
     Button bt6;
 
     private static final String TAG = "HomeActivity";
+    @BindView(R.id.ll_bottom)
+    LinearLayout llBottom;
+    @BindView(R.id.bt7)
+    Button bt7;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
+
+    private boolean bottom_ststus = true; //true:bottom  false:up
+    private int height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
+        int w = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        llBottom.measure(w, h);
+        height = llBottom.getMeasuredHeight();
+        int width = llBottom.getMeasuredWidth();
+
+
+        ObjectAnimator.ofFloat(llBottom, "translationY", 0, height).setDuration(1200).start();
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -91,6 +111,16 @@ public class HomeActivity extends BaseActivity {
                 intent.setClass(getContext(), ThreadPoolsActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.bt7:
+                if (bottom_ststus) {
+                    //弹出来
+                    ObjectAnimator.ofFloat(llBottom, "translationY", height, 0).setDuration(200).start();
+                }else {
+                    //放下去
+                    ObjectAnimator.ofFloat(llBottom, "translationY", 0, height).setDuration(200).start();
+                }
+                bottom_ststus = !bottom_ststus;
+                break;
         }
     }
 
@@ -99,11 +129,11 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() - lastMillion >= 2000)  {
+        if (System.currentTimeMillis() - lastMillion >= 2000) {
             //大于2秒，不退出
-            Log.i(TAG,"大于两秒");
+            Log.i(TAG, "大于两秒");
             ToastUtil.showToast(this, "再点一次退出！");
-        }else {
+        } else {
             System.exit(0);
         }
 

@@ -70,7 +70,8 @@ public class ThreadPoolsActivity extends BaseActivity implements View.OnClickLis
                 thread_tag = "SingleThreadExecutor";
                 break;
             case R.id.bt_execute:
-                executorService.execute(task);
+//                executorService.execute(task);
+                System.exit(0);
                 break;
         }
     }
