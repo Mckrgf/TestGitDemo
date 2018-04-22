@@ -1,11 +1,16 @@
 package com.god.yb.testgitdemo.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.god.yb.testgitdemo.App;
 import com.god.yb.testgitdemo.DBBean.DaoSession;
@@ -15,6 +20,8 @@ import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Utils.MyDateUtils;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.List;
 
@@ -42,6 +49,8 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llBottom;
     @BindView(R.id.bt7)
     Button bt7;
+    @BindView(R.id.bt8)
+    Button bt8;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
@@ -61,12 +70,15 @@ public class HomeActivity extends BaseActivity {
         llBottom.measure(w, h);
         height = llBottom.getMeasuredHeight();
         int width = llBottom.getMeasuredWidth();
-
+        if (ContextCompat.checkSelfPermission(getApp(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            //如果没有权限，就申请，然后走回调方法，在回调成功的时候调用拍照方法
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,Manifest.permission.VIBRATE}, 1);
+        }
 
         ObjectAnimator.ofFloat(llBottom, "translationY", 0, height).setDuration(1200).start();
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -115,11 +127,15 @@ public class HomeActivity extends BaseActivity {
                 if (bottom_ststus) {
                     //弹出来
                     ObjectAnimator.ofFloat(llBottom, "translationY", height, 0).setDuration(200).start();
-                }else {
+                } else {
                     //放下去
                     ObjectAnimator.ofFloat(llBottom, "translationY", 0, height).setDuration(200).start();
                 }
                 bottom_ststus = !bottom_ststus;
+                break;
+            case R.id.bt8:
+                Intent intent = new Intent(HomeActivity.this, CaptureActivity.class);
+                startActivityForResult(intent, 101);
                 break;
         }
     }
@@ -138,5 +154,23 @@ public class HomeActivity extends BaseActivity {
         }
 
         lastMillion = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //处理扫描结果（在界面上显示）
+        if (null != data) {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                return;
+            }
+            if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                String result = bundle.getString(CodeUtils.RESULT_STRING);
+                Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+            } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                Toast.makeText(HomeActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

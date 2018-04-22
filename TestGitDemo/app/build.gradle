@@ -65,4 +65,6 @@ dependencies {
 
     //网络框架
     compile 'com.lzy.net:okgo:3.0.4'
+
+    compile 'cn.yipianfengye.android:zxing-library:2.2'
 }

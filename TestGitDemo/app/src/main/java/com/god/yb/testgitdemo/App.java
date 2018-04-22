@@ -15,6 +15,7 @@ import com.lzy.okgo.cookie.store.SPCookieStore;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -41,6 +42,7 @@ public class App extends Application {
         super.onCreate();
         initDB();
         initHttp();
+        ZXingLibrary.initDisplayOpinion(this);
 
         Log.i(TAG,"当前的进程名字是：" + AppUtils.getCurProcessName(this));
     }
