@@ -1,6 +1,7 @@
 package com.god.yb.testgitdemo.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ public class HomeActivity extends BaseActivity {
     Button bt7;
     @BindView(R.id.bt8)
     Button bt8;
+    @BindView(R.id.bt9)
+    Button bt9;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
@@ -72,13 +75,13 @@ public class HomeActivity extends BaseActivity {
         int width = llBottom.getMeasuredWidth();
         if (ContextCompat.checkSelfPermission(getApp(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //如果没有权限，就申请，然后走回调方法，在回调成功的时候调用拍照方法
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,Manifest.permission.VIBRATE}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.VIBRATE}, 1);
         }
 
         ObjectAnimator.ofFloat(llBottom, "translationY", 0, height).setDuration(1200).start();
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -136,6 +139,10 @@ public class HomeActivity extends BaseActivity {
             case R.id.bt8:
                 Intent intent = new Intent(HomeActivity.this, CaptureActivity.class);
                 startActivityForResult(intent, 101);
+                break;
+            case R.id.bt9:
+                Intent intent1 = new Intent(HomeActivity.this, SensorActivity.class);
+                startActivityForResult(intent1, 101);
                 break;
         }
     }

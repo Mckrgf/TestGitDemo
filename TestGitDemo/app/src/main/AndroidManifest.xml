@@ -9,6 +9,7 @@
     <!-- 访问相机拍照 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BODY_SENSORS"/>
 
     <application
         android:name=".App"
@@ -43,9 +44,11 @@
         <activity android:name=".activities.FragmentActivity" />
         <activity android:name=".activities.NavigationActivity" />
         <activity android:name=".activities.ThreadPoolsActivity" />
-        <activity android:name=".activities.ProcessAActivity"/>
-        <activity android:name=".activities.ProcessBActivity"
-            android:process="com.god.yb.testgitdemo.remote"></activity>
+        <activity android:name=".activities.ProcessAActivity" />
+        <activity
+            android:name=".activities.ProcessBActivity"
+            android:process="com.god.yb.testgitdemo.remote" />
+        <activity android:name=".activities.SensorActivity"></activity>
     </application>
 
 </manifest>
