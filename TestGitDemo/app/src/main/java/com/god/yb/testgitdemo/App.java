@@ -1,5 +1,6 @@
 package com.god.yb.testgitdemo;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.Environment;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.util.Log;
 import com.god.yb.testgitdemo.DBBean.DaoMaster;
 import com.god.yb.testgitdemo.DBBean.DaoSession;
 import com.god.yb.testgitdemo.Utils.AppUtils;
+import com.god.yb.testgitdemo.Utils.CrashHandler;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -19,6 +21,8 @@ import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import org.greenrobot.greendao.database.Database;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -42,10 +46,13 @@ public class App extends Application {
         super.onCreate();
         initDB();
         initHttp();
+        CrashHandler.getInstance().init(this);
         ZXingLibrary.initDisplayOpinion(this);
 
         Log.i(TAG,"当前的进程名字是：" + AppUtils.getCurProcessName(this));
     }
+
+
 
     private void initDB() {
         //初始化数据库框架
@@ -98,4 +105,54 @@ public class App extends Application {
     //测试文件的输入输出（以流的方式）所使用的路径
     public static String commonPath = Environment.getExternalStorageDirectory() + "/testgitdemo";
     public static String cachePath = commonPath + "/cachefile.txt";
+    /**
+     * 实现android 程序退出
+     */
+    private List<Activity> mList = new LinkedList<Activity>();
+
+    //获取mList列表
+    public List<Activity> getActivitylists(){
+        return mList;
+    }
+
+    /**
+     * 在BaseActivity的onCreate方法中调用 ，维护一个activity队列
+     *
+     * @param activity
+     */
+    public void addActivity(Activity activity) {
+        mList.add(activity);
+    }
+    /**
+     * 在BaseActivity的onDestroy方法中调用 如果一个activity已经销毁了
+     * 从队列中删除
+     * @param activity
+     */
+    public void removeActivity(Activity activity) {
+        mList.remove(activity);
+    }
+
+    /**
+     * 程序退出
+     *
+     * @param code
+     */
+    public final void exit(int code) {
+        System.exit(code);
+    }
+
+    /**
+     * 释放资源，退出程序时候调用
+     */
+    public final void release(){
+        try {
+            for (Activity activity : mList) {
+                if (activity != null) {
+                    activity.finish();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

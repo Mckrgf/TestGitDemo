@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.god.yb.testgitdemo.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,7 +39,10 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
     TextView tvData9;
     @BindView(R.id.tv_data10)
     TextView tvData10;
+    @BindView(R.id.data11)
+    TextView data11;
     private SensorManager mSensorManager;
+    private float a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,16 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
 
         // 获取传感器管理对象
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        //true 说明这个timer以daemon方式运行（优先级低，程序结束timer也自动结束）
+        Timer timer = new Timer(true);
+
+        TimerTask task = new TimerTask() {
+            public void run() {
+                //每次需要执行的代码放到这里面。
+//                float s = 4.9 * 0.5;
+            }
+        };
     }
 
     @Override
@@ -151,6 +167,13 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
                 sb.append("\nZ轴方向上的线性加速度：");
                 sb.append(values[2]);
                 tvData6.setText(sb.toString());
+
+                a = values[2];
+                if (a>8) {
+                    String aa = String.valueOf(a).substring(0,4);
+                    String s = String.valueOf(data11.getText());
+                    data11.setText(s+"\nZ轴方向上的线性加速度"+aa);
+                }
                 break;
             case Sensor.TYPE_AMBIENT_TEMPERATURE:
                 sb = new StringBuilder();

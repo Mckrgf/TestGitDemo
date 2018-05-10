@@ -10,10 +10,20 @@ import com.god.yb.testgitdemo.R;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private App app;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+        app = (App) getApp();
+        app.addActivity(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null!=app)app.removeActivity(this);
     }
 
     public Context getContext() {
@@ -21,6 +31,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public Application getApp() {
-        return (App)getApplication();
+        return getApplication();
     }
 }
