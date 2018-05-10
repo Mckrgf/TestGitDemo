@@ -32,6 +32,12 @@ android {
             assets.srcDirs = ['src/main/assets']
         }
     }
+
+    greendao {
+        schemaVersion 15
+//        daoPackage 'com.tfhr.homeauto.Dao'
+//        targetGenDir 'src/main/java'
+    }
 }
 
 dependencies {
@@ -61,6 +67,7 @@ dependencies {
 
     compile 'org.greenrobot:greendao:3.2.2' // add library
     compile 'net.zetetic:android-database-sqlcipher:3.5.4@aar'
+    compile 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.0.3'
 
     //网络框架
     compile 'com.lzy.net:okgo:3.0.4'

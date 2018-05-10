@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.god.yb.testgitdemo.DBBean.DaoMaster;
 import com.god.yb.testgitdemo.DBBean.DaoSession;
+import com.god.yb.testgitdemo.DBBean.Helper;
 import com.god.yb.testgitdemo.Utils.AppUtils;
 import com.god.yb.testgitdemo.Utils.CrashHandler;
 import com.lzy.okgo.OkGo;
@@ -40,15 +41,20 @@ public class App extends Application {
 
     private DaoSession daoSession;
     private static final String TAG = "App";
+    private DaoMaster daoMaster;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initDB();
+
         initHttp();
         CrashHandler.getInstance().init(this);
         ZXingLibrary.initDisplayOpinion(this);
-
+        //MigrationHelper.DEBUG = true; //如果你想查看日志信息，请将DEBUG设置为true
+        Helper helper = new Helper(this, "test.db",
+                null);
+        daoMaster = new DaoMaster(helper.getWritableDatabase());
+        initDB();
         Log.i(TAG,"当前的进程名字是：" + AppUtils.getCurProcessName(this));
     }
 
@@ -56,9 +62,9 @@ public class App extends Application {
 
     private void initDB() {
         //初始化数据库框架
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "notes-db-encrypted" : "notes-db");
-        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
-        daoSession = new DaoMaster(db).newSession();
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "notes-db-encrypted" : "notes-db");
+//        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+        daoSession = daoMaster.newSession();
     }
 
     private void initHttp() {

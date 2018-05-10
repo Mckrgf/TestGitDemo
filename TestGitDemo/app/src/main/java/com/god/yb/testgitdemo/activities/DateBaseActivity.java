@@ -51,15 +51,15 @@ public class DateBaseActivity extends BaseActivity {
         userListAdapter.setData(user_list);
         rvUserList.setAdapter(userListAdapter);
 
-        OkGo.<HashMap>get("https://news-at.zhihu.com/api/4/news/latest")
-                .tag(this)
-                .execute(new CommonCallBack<HashMap>(true,getContext()) {
-                    @Override
-                    public void onSuccess(Response<HashMap> response) {
-                        HashMap map =  response.body();
-                        Log.i(TAG,map.toString());
-                        Toast.makeText(getContext(),String.valueOf(map),Toast.LENGTH_SHORT).show();
-                    }
-                });
+//        OkGo.<HashMap>get("https://news-at.zhihu.com/api/4/news/latest")
+//                .tag(this)
+//                .execute(new CommonCallBack<HashMap>(true,getContext()) {
+//                    @Override
+//                    public void onSuccess(Response<HashMap> response) {
+//                        HashMap map =  response.body();
+//                        Log.i(TAG,map.toString());
+//                        Toast.makeText(getContext(),String.valueOf(map),Toast.LENGTH_SHORT).show();
+//                    }
+//                });
     }
 }
