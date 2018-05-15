@@ -103,13 +103,6 @@ public class FallDetectionService extends Service {
                 if (fall.isFell()) {
                     Log.e(TAG, "跌倒了");
                     running = false;
-
-                    final Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtil.showToast(FallDetectionService.this,"跌倒检测到啦");
-                        }
-                    };
                     new Handler(Looper.getMainLooper()).post(runnable);
                     fall.setFell(false);
                     fall.cleanData();
@@ -120,38 +113,50 @@ public class FallDetectionService extends Service {
         }
     }
 
+    final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            showAlertDialog();
+//            ToastUtil.showToast(FallDetectionService.this,"跌倒检测到啦");
+        }
+    };
+
 
 
     /*
 弹窗报警
  */
     private void showAlertDialog() {
-        TextView countingView = new TextView(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                this.getApplicationContext());
-        builder.setTitle("跌倒警报");
-        builder.setView(countingView);
-        builder.setMessage("检测到跌倒发生，是否发出警报？");
-        builder.setIcon(R.mipmap.app_icon);
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                timer.cancel();
-                dialog.dismiss();
+        try {
+            TextView countingView = new TextView(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(
+                    this.getApplicationContext());
+            builder.setTitle("跌倒警报");
+            builder.setView(countingView);
+            builder.setMessage("检测到跌倒发生，是否发出警报？");
+            builder.setIcon(R.mipmap.app_icon);
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    timer.cancel();
+                    dialog.dismiss();
 //                if(isVibrate){
 //                    stopVibrate();
 //                }
 //                stopAlarm();
 //                Intent startIntent = new Intent(context, FallDetectionService.class);
 //                context.startService(startIntent);
-            }
-        });
-        dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        countDown();
-        dialog.show();
-        Log.d(TAG, "dialog.create()");
+                }
+            });
+            dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            countDown();
+            dialog.show();
+        }catch (Exception e) {
+            Log.i(TAG,e.toString());
+        }
+
     }
 
     /*
