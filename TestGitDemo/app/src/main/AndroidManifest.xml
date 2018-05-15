@@ -10,6 +10,11 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.BODY_SENSORS"/>
+    <!--允许手机振动-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 允许一个程序打开窗口使用 TYPE_SYSTEM_ALERT，显示在其他所有程序的顶层 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
 
     <application
         android:name=".App"
@@ -49,6 +54,16 @@
             android:name=".activities.ProcessBActivity"
             android:process="com.god.yb.testgitdemo.remote" />
         <activity android:name=".activities.SensorActivity"></activity>
+
+        <service
+            android:name=".FallTest.FallDetectionService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".FallTest.FallLocalReceiver"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

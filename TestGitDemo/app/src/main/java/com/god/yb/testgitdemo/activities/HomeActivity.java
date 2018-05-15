@@ -1,10 +1,13 @@
 package com.god.yb.testgitdemo.activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -17,8 +20,10 @@ import com.god.yb.testgitdemo.App;
 import com.god.yb.testgitdemo.DBBean.DaoSession;
 import com.god.yb.testgitdemo.DBBean.User;
 import com.god.yb.testgitdemo.DBBean.UserDao;
+import com.god.yb.testgitdemo.FallTest.FallDetectionService;
 import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Utils.MyDateUtils;
+import com.god.yb.testgitdemo.Utils.ServiceUtils;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -54,19 +59,27 @@ public class HomeActivity extends BaseActivity {
     Button bt8;
     @BindView(R.id.bt9)
     Button bt9;
+    @BindView(R.id.bt10)
+    Button bt10;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
     private boolean bottom_ststus = true; //true:bottom  false:up
     private int height;
+    private boolean serviceRunning;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-//        String nu = null;
-//        Log.i(TAG,nu);
+
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivityForResult(intent,100);
+
+
         int w = View.MeasureSpec.makeMeasureSpec(0,
                 View.MeasureSpec.UNSPECIFIED);
         int h = View.MeasureSpec.makeMeasureSpec(0,
@@ -80,9 +93,18 @@ public class HomeActivity extends BaseActivity {
         }
 
         ObjectAnimator.ofFloat(llBottom, "translationY", 0, height).setDuration(1200).start();
+        //检测跌落服务是否开启
+        serviceRunning = ServiceUtils.isServiceRunning(this, "com.god.yb.testgitdemo.FallTest.FallDetectionService");
+        if (serviceRunning) {
+            bt10.setText("关闭跌落检测服务");
+            Log.i(TAG, "跌落服务开启了");
+        } else {
+            bt10.setText("打开跌落检测服务");
+            Log.i(TAG, "跌落服务关闭了");
+        }
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -145,6 +167,19 @@ public class HomeActivity extends BaseActivity {
                 Intent intent1 = new Intent(HomeActivity.this, SensorActivity.class);
                 startActivityForResult(intent1, 101);
                 break;
+            case R.id.bt10:
+                if (serviceRunning) {
+                    bt10.setText("打开跌落检测服务");
+                    Intent stopIntent = new Intent(getContext(), FallDetectionService.class);
+                    getContext().stopService(stopIntent);
+                    serviceRunning = false;
+                } else {
+                    bt10.setText("关闭跌落检测服务");
+                    Intent startIntent = new Intent(getContext(), FallDetectionService.class);
+                    getContext().startService(startIntent);
+                    serviceRunning = true;
+                }
+                break;
         }
     }
 
@@ -167,18 +202,29 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //处理扫描结果（在界面上显示）
-        if (null != data) {
-            Bundle bundle = data.getExtras();
-            if (bundle == null) {
-                return;
+        if (resultCode == 1) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!Settings.canDrawOverlays(this)) {
+                    Log.i(TAG,"不能悬浮");
+                }else {
+                    Log.i(TAG,"可以悬浮");
+                }
             }
-            if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                String result = bundle.getString(CodeUtils.RESULT_STRING);
-                Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
-            } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                Toast.makeText(HomeActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+        } else {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(HomeActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
             }
         }
+
     }
 }

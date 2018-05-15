@@ -80,11 +80,11 @@ public class App extends Application {
         //非必要情况，不建议使用，第三方的开源库，使用通知显示当前请求的log，不过在做文件下载的时候，这个库好像有问题，对文件判断不准确
         //builder.addInterceptor(new ChuckInterceptor(this));
         //全局的读取超时时间(60s)
-        builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
+        builder.readTimeout(10*1000, TimeUnit.MILLISECONDS);
         //全局的写入超时时间(60s)
-        builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
+        builder.writeTimeout(10*1000, TimeUnit.MILLISECONDS);
         //全局的连接超时时间(60s)
-        builder.connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
+        builder.connectTimeout(10*1000, TimeUnit.MILLISECONDS);
         //使用sp保持cookie，如果cookie不过期，则一直有效
         builder.cookieJar(new CookieJarImpl(new SPCookieStore(this)));
         //---------这里给出的是示例代码,告诉你可以这么传,实际使用的时候,根据需要传,不需要就不传-------------//
