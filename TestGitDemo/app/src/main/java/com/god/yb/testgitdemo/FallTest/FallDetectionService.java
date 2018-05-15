@@ -107,8 +107,7 @@ public class FallDetectionService extends Service {
                     final Runnable runnable = new Runnable() {
                         @Override
                         public void run() {
-//                            ToastUtil.showToast(FallDetectionService.this,"跌倒检测到啦");
-                            showAlertDialog();
+                            ToastUtil.showToast(FallDetectionService.this,"跌倒检测到啦");
                         }
                     };
                     new Handler(Looper.getMainLooper()).post(runnable);
