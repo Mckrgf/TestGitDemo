@@ -20,6 +20,7 @@ import com.god.yb.testgitdemo.App;
 import com.god.yb.testgitdemo.DBBean.DaoSession;
 import com.god.yb.testgitdemo.DBBean.User;
 import com.god.yb.testgitdemo.DBBean.UserDao;
+import com.god.yb.testgitdemo.Event.FallEvent;
 import com.god.yb.testgitdemo.FallTest.FallDetectionService;
 import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Utils.MyDateUtils;
@@ -28,6 +29,10 @@ import com.god.yb.testgitdemo.Utils.ToastUtil;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -198,6 +203,33 @@ public class HomeActivity extends BaseActivity {
         }
 
         lastMillion = System.currentTimeMillis();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(FallEvent event) {
+        int service_state = event.getService_state();
+        switch (service_state) {
+            case 0:
+                //要重启服务
+                bt10.setText("关闭跌落检测服务");
+                Intent stopIntent = new Intent(getContext(), FallDetectionService.class);
+                getContext().stopService(stopIntent);
+                getContext().startService(stopIntent);
+                serviceRunning = true;
+                break;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
