@@ -7,13 +7,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -24,8 +22,6 @@ import com.god.yb.testgitdemo.activities.HomeActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Timer;
-
 public class FallDetectionService extends Service {
 
     private FallSensorManager fallSensorManager;
@@ -34,9 +30,6 @@ public class FallDetectionService extends Service {
     private boolean running = false;
     private final String TAG = "liuweixiang";
     private DetectThread detectThread;
-    private IntentFilter intentFilter;
-    private LocalBroadcastManager localBroadcastManager;
-    private FallLocalReceiver fallLocalReceiver;
     private Dialog dialog;
 
     public FallDetectionService() {
@@ -61,12 +54,6 @@ public class FallDetectionService extends Service {
         running = true;
         //在通知栏上显示服务运行
         showInNotification();
-
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        intentFilter = new IntentFilter();
-        intentFilter.addAction("com.broadcast.FALL_LOCAL_BROADCAST");
-        fallLocalReceiver = new FallLocalReceiver();
-        localBroadcastManager.registerReceiver(fallLocalReceiver, intentFilter);
     }
 
 
@@ -82,7 +69,6 @@ public class FallDetectionService extends Service {
     @Override
     public void onDestroy() {
         fallSensorManager.unregisterSensor();
-        localBroadcastManager.unregisterReceiver(fallLocalReceiver);
         super.onDestroy();
     }
 
@@ -102,6 +88,7 @@ public class FallDetectionService extends Service {
                     FallEvent fallEvent = new FallEvent();
                     fallEvent.setService_state(0);
                     EventBus.getDefault().post(fallEvent);
+                    break;
                 }
             }
         }

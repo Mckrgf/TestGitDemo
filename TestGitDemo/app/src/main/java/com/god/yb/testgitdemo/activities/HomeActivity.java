@@ -102,10 +102,10 @@ public class HomeActivity extends BaseActivity {
         //检测跌落服务是否开启
         serviceRunning = ServiceUtils.isServiceRunning(this, "com.god.yb.testgitdemo.FallTest.FallDetectionService");
         if (serviceRunning) {
-            bt10.setText("关闭跌落检测服务");
+            bt10.setText("关闭跌落检测服务,当前状态:开启中");
             Log.i(TAG, "跌落服务开启了");
         } else {
-            bt10.setText("打开跌落检测服务");
+            bt10.setText("打开跌落检测服务,当前状态:关闭中");
             Log.i(TAG, "跌落服务关闭了");
         }
     }
@@ -175,12 +175,12 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.bt10:
                 if (serviceRunning) {
-                    bt10.setText("打开跌落检测服务");
+                    bt10.setText("打开跌落检测服务,当前状态:关闭中");
                     Intent stopIntent = new Intent(getContext(), FallDetectionService.class);
                     getContext().stopService(stopIntent);
                     serviceRunning = false;
                 } else {
-                    bt10.setText("关闭跌落检测服务");
+                    bt10.setText("关闭跌落检测服务,当前状态:开启中");
                     Intent startIntent = new Intent(getContext(), FallDetectionService.class);
                     getContext().startService(startIntent);
                     serviceRunning = true;
@@ -211,7 +211,7 @@ public class HomeActivity extends BaseActivity {
         switch (service_state) {
             case 0:
                 //要重启服务
-                bt10.setText("关闭跌落检测服务");
+                bt10.setText("关闭跌落检测服务,当前状态:开启中");
                 Intent stopIntent = new Intent(getContext(), FallDetectionService.class);
                 getContext().stopService(stopIntent);
                 getContext().startService(stopIntent);
