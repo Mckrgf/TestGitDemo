@@ -187,6 +187,7 @@ public class HomeActivity extends BaseActivity {
                     getContext().startService(startIntent);
                     serviceRunning = true;
                 }
+                break;
             case R.id.bt11:
                 Intent intent2 = new Intent(HomeActivity.this, NFCActivity.class);
                 intent2.putExtra("card",1);
@@ -218,6 +219,7 @@ public class HomeActivity extends BaseActivity {
         switch (service_state) {
             case 0:
                 //要重启服务
+                Log.i(TAG,"收到信息重启跌落检测服务");
                 bt10.setText("关闭跌落检测服务,当前状态:开启中");
                 Intent stopIntent = new Intent(getContext(), FallDetectionService.class);
                 getContext().stopService(stopIntent);

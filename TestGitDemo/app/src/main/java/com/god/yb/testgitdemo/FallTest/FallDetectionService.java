@@ -29,10 +29,11 @@ public class FallDetectionService extends Service {
     private FallSensorManager fallSensorManager;
     public Fall fall;
     private boolean running = false;
-    private final String TAG = "liuweixiang";
+    private final String TAG = "FallDetectionService";
     private DetectThread detectThread;
     private Dialog dialog;
     private Vibrator vibrator;
+    private int a;
 
     public FallDetectionService() {
     }
@@ -54,6 +55,7 @@ public class FallDetectionService extends Service {
         running = true;
         //在通知栏上显示服务运行
         showInNotification();
+        a = 0;
     }
 
 
@@ -81,13 +83,15 @@ public class FallDetectionService extends Service {
                 if (fall.isFell()) {
                     Log.e(TAG, "跌倒了");
                     running = false;
-                    new Handler(Looper.getMainLooper()).post(runnable);
-                    fall.setFell(false);
-                    fall.cleanData();
-                    //负责重启服务
-                    FallEvent fallEvent = new FallEvent();
-                    fallEvent.setService_state(0);
-                    EventBus.getDefault().post(fallEvent);
+                    if (a==0) {
+                        new Handler(Looper.getMainLooper()).post(runnable);
+                        fall.setFell(false);
+                        fall.cleanData();
+                        //负责重启服务
+                        FallEvent fallEvent = new FallEvent();
+                        fallEvent.setService_state(0);
+                        EventBus.getDefault().post(fallEvent);
+                    }
                     break;
                 }
             }
@@ -98,6 +102,7 @@ public class FallDetectionService extends Service {
         @Override
         public void run() {
             startVibrate();
+            a++;
             showAlertDialog();
         }
     };

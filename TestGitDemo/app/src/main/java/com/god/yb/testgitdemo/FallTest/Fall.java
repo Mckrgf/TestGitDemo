@@ -17,12 +17,12 @@ public class Fall{
     public static float[] svmData;
     public static float[] svmFilteringData;
     public static int svmCount = 0;
-    public static final String TAG = "liuweixiang";
+    public static final String TAG = "Fall";
 
 
     public Fall(){
-        svmData = new float[150];
-        svmFilteringData = new float[150];
+        svmData = new float[50];
+        svmFilteringData = new float[50];
         isFell = false;
     }
 
