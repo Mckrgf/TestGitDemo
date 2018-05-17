@@ -88,22 +88,27 @@ public class FallDetectionService extends Service {
             Log.d(TAG, "DetectThread.start()");
             while (running) {
                 if (fall.isFell()) {
-                    Log.e(TAG, "跌倒了");
-                    try {
-                        sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    running = false;
-                    if (a==0) {
-                        new Handler(Looper.getMainLooper()).post(runnable);
-                        fall.setFell(false);
-                        fall.cleanData();
-                        //负责重启服务
-                        FallEvent fallEvent = new FallEvent();
-                        fallEvent.setService_state(0);
-                        EventBus.getDefault().post(fallEvent);
-                    }
+                    new Handler(Looper.getMainLooper()).post(runnable);
+                    FallEvent fallEvent = new FallEvent();
+                    fallEvent.setService_state(0);
+                    EventBus.getDefault().post(fallEvent);
+
+//                    Log.e(TAG, "跌倒了");
+//                    try {
+//                        sleep(1);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    running = false;
+//                    if (a==0) {
+//                        new Handler(Looper.getMainLooper()).post(runnable);
+//                        fall.setFell(false);
+//                        fall.cleanData();
+//                        //负责重启服务
+//                        FallEvent fallEvent = new FallEvent();
+//                        fallEvent.setService_state(0);
+//                        EventBus.getDefault().post(fallEvent);
+//                    }
                     break;
                 }
             }

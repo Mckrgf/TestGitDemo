@@ -74,6 +74,7 @@ public class HomeActivity extends BaseActivity {
     private boolean bottom_ststus = true; //true:bottom  false:up
     private int height;
     private boolean serviceRunning;
+    private Intent intent_service;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -81,7 +82,7 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-
+        intent_service = new Intent(getContext(), FallDetectionService.class);
         if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
             intent.setData(Uri.parse("package:" + getPackageName()));
@@ -178,13 +179,11 @@ public class HomeActivity extends BaseActivity {
             case R.id.bt10:
                 if (serviceRunning) {
                     bt10.setText("打开跌落检测服务,当前状态:关闭中");
-                    Intent stopIntent = new Intent(getContext(), FallDetectionService.class);
-                    getContext().stopService(stopIntent);
+                    getContext().stopService(intent_service);
                     serviceRunning = false;
                 } else {
                     bt10.setText("关闭跌落检测服务,当前状态:开启中");
-                    Intent startIntent = new Intent(getContext(), FallDetectionService.class);
-                    getContext().startService(startIntent);
+                    getContext().startService(intent_service);
                     serviceRunning = true;
                 }
                 break;
@@ -221,9 +220,8 @@ public class HomeActivity extends BaseActivity {
                 //要重启服务
                 Log.i(TAG,"收到信息重启跌落检测服务");
                 bt10.setText("关闭跌落检测服务,当前状态:开启中");
-                Intent stopIntent = new Intent(getContext(), FallDetectionService.class);
-                getContext().stopService(stopIntent);
-                getContext().startService(stopIntent);
+                getContext().stopService(intent_service);
+                getContext().startService(intent_service);
                 serviceRunning = true;
                 break;
         }
