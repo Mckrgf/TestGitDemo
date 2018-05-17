@@ -5,12 +5,14 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.WindowManager;
@@ -26,11 +28,11 @@ public class FallDetectionService extends Service {
 
     private FallSensorManager fallSensorManager;
     public Fall fall;
-    private final int FELL = 0;
     private boolean running = false;
     private final String TAG = "liuweixiang";
     private DetectThread detectThread;
     private Dialog dialog;
+    private Vibrator vibrator;
 
     public FallDetectionService() {
     }
@@ -44,18 +46,15 @@ public class FallDetectionService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "FallDetectionService.onCreate()");
-
         fallSensorManager = new FallSensorManager(this);
         fallSensorManager.initSensor();
         fallSensorManager.registerSensor();
         fall = new Fall();
-        fall.setThresholdValue(25,5);
+        fall.setThresholdValue(25, 5);
         running = true;
         //在通知栏上显示服务运行
         showInNotification();
     }
-
 
 
     @Override
@@ -85,6 +84,7 @@ public class FallDetectionService extends Service {
                     new Handler(Looper.getMainLooper()).post(runnable);
                     fall.setFell(false);
                     fall.cleanData();
+                    //负责重启服务
                     FallEvent fallEvent = new FallEvent();
                     fallEvent.setService_state(0);
                     EventBus.getDefault().post(fallEvent);
@@ -97,9 +97,26 @@ public class FallDetectionService extends Service {
     final Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            startVibrate();
             showAlertDialog();
         }
     };
+
+    /*
+开始震动
+ */
+    private void startVibrate() {
+        vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+        long[] pattern = {100, 500, 100, 500};
+        vibrator.vibrate(pattern, 2);
+    }
+
+    /*
+    停止震动
+     */
+    private void stopVibrate() {
+        vibrator.cancel();
+    }
 
     /*
 弹窗报警
@@ -116,6 +133,7 @@ public class FallDetectionService extends Service {
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    stopVibrate();
                     dialog.dismiss();
                 }
             });
@@ -123,8 +141,8 @@ public class FallDetectionService extends Service {
             dialog.setCanceledOnTouchOutside(false);
             dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
             dialog.show();
-        }catch (Exception e) {
-            Log.i(TAG,e.toString());
+        } catch (Exception e) {
+            Log.i(TAG, e.toString());
         }
 
     }
@@ -133,7 +151,7 @@ public class FallDetectionService extends Service {
     在通知栏上显示服务运行
      */
     private void showInNotification() {
-        Intent intent = new Intent(this,HomeActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
         Notification notification = new NotificationCompat.Builder(this)
                 .setContentTitle("老人跌到检测")
@@ -143,7 +161,7 @@ public class FallDetectionService extends Service {
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon))
                 .setContentIntent(pi)
                 .build();
-        startForeground(1,notification);
+        startForeground(1, notification);
     }
 
 }

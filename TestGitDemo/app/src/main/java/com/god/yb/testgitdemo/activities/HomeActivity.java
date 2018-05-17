@@ -66,6 +66,8 @@ public class HomeActivity extends BaseActivity {
     Button bt9;
     @BindView(R.id.bt10)
     Button bt10;
+    @BindView(R.id.bt11)
+    Button bt11;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
@@ -83,7 +85,7 @@ public class HomeActivity extends BaseActivity {
         if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
             intent.setData(Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent,100);
+            startActivityForResult(intent, 100);
         }
 
         int w = View.MeasureSpec.makeMeasureSpec(0,
@@ -110,7 +112,7 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -185,7 +187,12 @@ public class HomeActivity extends BaseActivity {
                     getContext().startService(startIntent);
                     serviceRunning = true;
                 }
+            case R.id.bt11:
+                Intent intent2 = new Intent(HomeActivity.this, NFCActivity.class);
+                intent2.putExtra("card",1);
+                startActivity(intent2);
                 break;
+
         }
     }
 
@@ -238,10 +245,10 @@ public class HomeActivity extends BaseActivity {
         if (requestCode == 100) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!Settings.canDrawOverlays(this)) {
-                    Log.i(TAG,"不能悬浮");
-                    ToastUtil.showToast(this,"请设置app可以悬浮");
-                }else {
-                    Log.i(TAG,"可以悬浮");
+                    Log.i(TAG, "不能悬浮");
+                    ToastUtil.showToast(this, "请设置app可以悬浮");
+                } else {
+                    Log.i(TAG, "可以悬浮");
                 }
             }
         } else {
