@@ -63,7 +63,14 @@ public class FallDetectionService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "FallDetectionService.onStartCommand");
         detectThread = new DetectThread();
+        boolean a = detectThread.isAlive();
+        boolean b = detectThread.isDaemon();
+        boolean c = detectThread.isInterrupted();
+        Log.i(TAG,"isAlive  " + a);
+        Log.i(TAG,"isDaemon  " + b);
+        Log.i(TAG,"isInterrupted  " + c);
         detectThread.start();
+        Log.i(TAG,"启动多线程检测跌落");
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -82,6 +89,11 @@ public class FallDetectionService extends Service {
             while (running) {
                 if (fall.isFell()) {
                     Log.e(TAG, "跌倒了");
+                    try {
+                        sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     running = false;
                     if (a==0) {
                         new Handler(Looper.getMainLooper()).post(runnable);

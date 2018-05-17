@@ -3,6 +3,8 @@ package com.god.yb.testgitdemo.FallTest;
 
 import android.util.Log;
 
+import static java.lang.Thread.sleep;
+
 
 /**
  * Created by LiuWeixiang on 2017/3/1.
@@ -52,6 +54,11 @@ public class Fall{
             public void run() {
                 boolean running = true;
                 while(running){
+                    try {
+                        sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     //阈值法
                     for(int i = 0; i < svmFilteringData.length; i++){
                         if(svmFilteringData[i] <= lowThresholdValue){
