@@ -56,8 +56,10 @@ public class FallDetectionService extends Service {
 
     @Override
     public void onDestroy() {
-        fallSensorManager.unregisterSensor();
         super.onDestroy();
+        fallSensorManager.unregisterSensor();
+        fall.setStatus(false);
+        running = false;
     }
 
     //开一个线程用于检测跌倒

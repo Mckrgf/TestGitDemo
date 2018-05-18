@@ -22,6 +22,7 @@ public class Fall{
     public static int svmCount = 0;
     public static final String TAG = "Fall";
     private HandlerThread thread;
+    private boolean running;
 
 
     public Fall(){
@@ -37,6 +38,10 @@ public class Fall{
         this.highThresholdValue = highThreshold;
         this.lowThresholdValue = lowThreshold;
         Log.d(TAG, highThreshold + "   " + lowThreshold);
+    }
+
+    public void setStatus(boolean bbb) {
+        running = bbb;
     }
 
 
@@ -55,7 +60,7 @@ public class Fall{
         thread = new HandlerThread("bbb") {
             @Override
             public void run() {
-                boolean running = true;
+                running = true;
                 while(running){
                     try {
                         sleep(1);
