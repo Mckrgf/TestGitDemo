@@ -66,11 +66,11 @@ public class FallDetectionService extends Service {
         boolean a = detectThread.isAlive();
         boolean b = detectThread.isDaemon();
         boolean c = detectThread.isInterrupted();
-        Log.i(TAG,"isAlive  " + a);
-        Log.i(TAG,"isDaemon  " + b);
-        Log.i(TAG,"isInterrupted  " + c);
+        Log.i(TAG, "isAlive  " + a);
+        Log.i(TAG, "isDaemon  " + b);
+        Log.i(TAG, "isInterrupted  " + c);
         detectThread.start();
-        Log.i(TAG,"启动多线程检测跌落");
+        Log.i(TAG, "启动多线程检测跌落");
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -87,28 +87,17 @@ public class FallDetectionService extends Service {
             fall.fallDetection();
             Log.d(TAG, "DetectThread.start()");
             while (running) {
+                try {
+                    sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if (fall.isFell()) {
                     new Handler(Looper.getMainLooper()).post(runnable);
                     FallEvent fallEvent = new FallEvent();
                     fallEvent.setService_state(0);
                     EventBus.getDefault().post(fallEvent);
-
-//                    Log.e(TAG, "跌倒了");
-//                    try {
-//                        sleep(1);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    running = false;
-//                    if (a==0) {
-//                        new Handler(Looper.getMainLooper()).post(runnable);
-//                        fall.setFell(false);
-//                        fall.cleanData();
-//                        //负责重启服务
-//                        FallEvent fallEvent = new FallEvent();
-//                        fallEvent.setService_state(0);
-//                        EventBus.getDefault().post(fallEvent);
-//                    }
+                    fall.setFell(false);
                     break;
                 }
             }
