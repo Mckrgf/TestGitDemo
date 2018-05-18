@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -15,6 +16,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -34,6 +36,9 @@ public class FallDetectionService extends Service {
     private DetectThread detectThread;
     private Dialog dialog;
     private Vibrator vibrator;
+    private LocalBroadcastManager localBroadcastManager;
+    private FallLocalReceiver fallLocalReceiver;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -52,12 +57,19 @@ public class FallDetectionService extends Service {
         showInNotification();
         detectThread = new DetectThread("aaa");
         detectThread.start();
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.broadcast.FALL_LOCAL_BROADCAST");
+        fallLocalReceiver = new FallLocalReceiver();
+        localBroadcastManager.registerReceiver(fallLocalReceiver, intentFilter);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         fallSensorManager.unregisterSensor();
+        localBroadcastManager.unregisterReceiver(fallLocalReceiver);
         fall.setStatus(false);
         running = false;
     }
@@ -79,13 +91,17 @@ public class FallDetectionService extends Service {
                     e.printStackTrace();
                 }
                 if (fall.isFell()) {
-//                    running = false;
-                    new Handler(Looper.getMainLooper()).post(runnable);
-//                    fall.setFell(false);
+                    running = false;
+//                    new Handler(Looper.getMainLooper()).post(runnable);
+                    fall.setFell(false);
                     //负责重启服务
                     FallEvent fallEvent = new FallEvent();
                     fallEvent.setService_state(0);
                     EventBus.getDefault().post(fallEvent);
+
+                    Intent intent = new Intent("com.broadcast.FALL_LOCAL_BROADCAST");
+                    localBroadcastManager.sendBroadcast(intent);
+                    stopSelf();
                     break;
 
                 }
