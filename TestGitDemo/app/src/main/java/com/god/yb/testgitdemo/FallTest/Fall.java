@@ -1,6 +1,7 @@
 package com.god.yb.testgitdemo.FallTest;
 
 
+import android.os.HandlerThread;
 import android.util.Log;
 
 import static java.lang.Thread.sleep;
@@ -20,6 +21,7 @@ public class Fall{
     public static float[] svmFilteringData;
     public static int svmCount = 0;
     public static final String TAG = "Fall";
+    private HandlerThread thread;
 
 
     public Fall(){
@@ -49,7 +51,8 @@ public class Fall{
      */
     public  void fallDetection(){
         Log.d(TAG, "Fall.fallDetection()");
-        new Thread(new Runnable() {
+        //阈值法
+        thread = new HandlerThread("bbb") {
             @Override
             public void run() {
                 boolean running = true;
@@ -88,7 +91,8 @@ public class Fall{
 
                 }
             }
-        }).start();
+        };
+        thread.start();
     }
 
     /*

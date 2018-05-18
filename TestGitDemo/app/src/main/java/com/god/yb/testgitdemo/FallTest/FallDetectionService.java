@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Vibrator;
@@ -28,15 +29,11 @@ public class FallDetectionService extends Service {
 
     private FallSensorManager fallSensorManager;
     public Fall fall;
-    private boolean running = false;
+    private boolean running = true;
     private final String TAG = "FallDetectionService";
     private DetectThread detectThread;
     private Dialog dialog;
     private Vibrator vibrator;
-    private int a;
-
-    public FallDetectionService() {
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -52,26 +49,9 @@ public class FallDetectionService extends Service {
         fallSensorManager.registerSensor();
         fall = new Fall();
         fall.setThresholdValue(25, 5);
-        running = true;
-        //在通知栏上显示服务运行
         showInNotification();
-        a = 0;
-    }
-
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "FallDetectionService.onStartCommand");
-        detectThread = new DetectThread();
-        boolean a = detectThread.isAlive();
-        boolean b = detectThread.isDaemon();
-        boolean c = detectThread.isInterrupted();
-        Log.i(TAG, "isAlive  " + a);
-        Log.i(TAG, "isDaemon  " + b);
-        Log.i(TAG, "isInterrupted  " + c);
+        detectThread = new DetectThread("aaa");
         detectThread.start();
-        Log.i(TAG, "启动多线程检测跌落");
-        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -81,7 +61,11 @@ public class FallDetectionService extends Service {
     }
 
     //开一个线程用于检测跌倒
-    class DetectThread extends Thread {
+    class DetectThread extends HandlerThread {
+        public DetectThread(String name) {
+            super(name);
+        }
+
         @Override
         public void run() {
             fall.fallDetection();
@@ -93,12 +77,15 @@ public class FallDetectionService extends Service {
                     e.printStackTrace();
                 }
                 if (fall.isFell()) {
+//                    running = false;
                     new Handler(Looper.getMainLooper()).post(runnable);
+//                    fall.setFell(false);
+                    //负责重启服务
                     FallEvent fallEvent = new FallEvent();
                     fallEvent.setService_state(0);
                     EventBus.getDefault().post(fallEvent);
-                    fall.setFell(false);
                     break;
+
                 }
             }
         }
@@ -108,7 +95,6 @@ public class FallDetectionService extends Service {
         @Override
         public void run() {
             startVibrate();
-            a++;
             showAlertDialog();
         }
     };

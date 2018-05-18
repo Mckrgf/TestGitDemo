@@ -183,6 +183,7 @@ public class HomeActivity extends BaseActivity {
                     serviceRunning = false;
                 } else {
                     bt10.setText("关闭跌落检测服务,当前状态:开启中");
+                    getContext().stopService(intent_service);
                     getContext().startService(intent_service);
                     serviceRunning = true;
                 }
