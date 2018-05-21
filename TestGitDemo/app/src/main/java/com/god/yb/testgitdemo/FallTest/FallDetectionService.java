@@ -169,8 +169,8 @@ public class FallDetectionService extends Service {
         Intent intent = new Intent(this, HomeActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
         Notification notification = new NotificationCompat.Builder(this)
-                .setContentTitle("老人跌到检测")
-                .setContentText("老人跌倒检测正在运行")
+                .setContentTitle("跌到检测")
+                .setContentText("跌倒检测正在运行")
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.app_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon))
