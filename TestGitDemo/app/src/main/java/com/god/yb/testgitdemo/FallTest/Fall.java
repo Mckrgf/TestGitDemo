@@ -21,7 +21,6 @@ public class Fall{
     public static float[] svmFilteringData;
     public static int svmCount = 0;
     public static final String TAG = "Fall";
-    private HandlerThread thread;
     private boolean running;
 
 
@@ -57,34 +56,34 @@ public class Fall{
     public  void fallDetection(){
         Log.d(TAG, "Fall.fallDetection()");
         //阈值法
-        thread = new HandlerThread("bbb") {
+        HandlerThread thread = new HandlerThread("thread_check_fall") {
             @Override
             public void run() {
                 running = true;
-                while(running){
+                while (running) {
                     try {
                         sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     //阈值法
-                    for(int i = 0; i < svmFilteringData.length; i++){
-                        if(svmFilteringData[i] <= lowThresholdValue){
-                            if(i < svmFilteringData.length-10){
+                    for (int i = 0; i < svmFilteringData.length; i++) {
+                        if (svmFilteringData[i] <= lowThresholdValue) {
+                            if (i < svmFilteringData.length - 10) {
                                 for (int j = i; j < i + 10; j++) {
                                     if (svmFilteringData[j] >= highThresholdValue) {
                                         running = false;
                                         setFell(true);
                                     }
                                 }
-                            }else {
+                            } else {
                                 for (int j = i; j < svmFilteringData.length; j++) {
                                     if (svmFilteringData[j] >= highThresholdValue) {
                                         running = false;
                                         setFell(true);
                                     }
                                 }
-                                for (int k = 0; k < (10-(svmFilteringData.length - i)); k++){
+                                for (int k = 0; k < (10 - (svmFilteringData.length - i)); k++) {
                                     if (svmFilteringData[k] >= highThresholdValue) {
                                         running = false;
                                         setFell(true);
