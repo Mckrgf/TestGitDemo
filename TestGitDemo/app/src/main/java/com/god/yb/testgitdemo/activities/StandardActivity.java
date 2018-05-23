@@ -1,6 +1,7 @@
 package com.god.yb.testgitdemo.activities;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,7 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SingleTaskActivity extends BaseActivity {
+public class StandardActivity extends BaseActivity {
 
     @BindView(R.id.bt_singleInstance)
     Button btSingleInstance;
@@ -24,7 +25,7 @@ public class SingleTaskActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_task);
+        setContentView(R.layout.activity_standard);
         ButterKnife.bind(this);
     }
 

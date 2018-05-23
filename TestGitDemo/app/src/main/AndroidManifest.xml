@@ -112,13 +112,17 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activities.SingleTaskActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activities.SingleTopActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".activities.SingleInstanceActivity"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".activities.LaunchModeActivity"></activity>
+        <activity
+            android:name=".activities.SingleTaskActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activities.SingleTopActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activities.SingleInstanceActivity"
+            android:launchMode="singleInstance" />
+        <activity android:name=".activities.LaunchModeActivity" />
+        <activity android:name=".activities.StandardActivity"></activity>
     </application>
 
 </manifest>
