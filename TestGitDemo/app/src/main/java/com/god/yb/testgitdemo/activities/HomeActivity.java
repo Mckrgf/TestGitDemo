@@ -123,7 +123,7 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.bt2:
                 Log.i(TAG, "Activity模块");
-                intent.setClass(getContext(), HomeActivity.class);
+                intent.setClass(getContext(), LaunchModeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.bt3:

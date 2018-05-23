@@ -108,4 +108,9 @@ public class BaseActivity extends AppCompatActivity {
     public Application getApp() {
         return getApplication();
     }
+
+    public void openActivity(Class<?> cls) {
+        Intent i = new Intent(this, cls);
+        startActivity(i);
+    }
 }
