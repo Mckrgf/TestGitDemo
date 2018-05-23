@@ -80,7 +80,7 @@ public class FallLocalReceiver extends BroadcastReceiver{
         });
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY );
         countDown();
         dialog.show();
         Log.d(TAG, "dialog.create()");

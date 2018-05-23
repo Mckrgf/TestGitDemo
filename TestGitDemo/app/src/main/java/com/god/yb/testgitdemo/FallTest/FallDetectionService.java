@@ -1,11 +1,14 @@
 package com.god.yb.testgitdemo.FallTest;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -98,9 +101,26 @@ public class FallDetectionService extends Service {
      * 在通知栏上显示服务运行
      */
     private void showInNotification() {
+
+        String CHANNEL_ONE_ID = "com.god.yb.testgitdemo";
+        String CHANNEL_ONE_NAME = "Channel One";
+        NotificationChannel notificationChannel;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
+                    CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setShowBadge(true);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            assert manager != null;
+            manager.createNotificationChannel(notificationChannel);
+        }
+
         Intent intent = new Intent(this, HomeActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
         Notification notification = new NotificationCompat.Builder(this)
+                .setChannelId(CHANNEL_ONE_ID)
                 .setContentTitle("跌到检测")
                 .setContentText("跌倒检测正在运行")
                 .setWhen(System.currentTimeMillis())

@@ -5,12 +5,12 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.god.yb.testgitdemo"
         minSdkVersion 19
-        targetSdkVersion 19
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
