@@ -4,12 +4,6 @@ package com.god.yb.testgitdemo.FallTest;
 import android.os.HandlerThread;
 import android.util.Log;
 
-import static java.lang.Thread.sleep;
-
-
-/**
- * Created by LiuWeixiang on 2017/3/1.
- */
 
 public class Fall{
 

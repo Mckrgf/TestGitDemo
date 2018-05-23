@@ -8,17 +8,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.god.yb.testgitdemo.R;
 
