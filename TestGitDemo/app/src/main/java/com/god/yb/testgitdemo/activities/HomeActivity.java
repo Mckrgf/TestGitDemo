@@ -68,6 +68,8 @@ public class HomeActivity extends BaseActivity {
     Button bt10;
     @BindView(R.id.bt11)
     Button bt11;
+    @BindView(R.id.bt12)
+    Button bt12;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
@@ -113,7 +115,7 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -192,6 +194,9 @@ public class HomeActivity extends BaseActivity {
                 Intent intent2 = new Intent(HomeActivity.this, NFCActivity.class);
                 intent2.putExtra("card",1);
                 startActivity(intent2);
+                break;
+            case R.id.bt12:
+                openActivity(TabViewpagerActivity.class);
                 break;
 
         }

@@ -122,7 +122,8 @@
             android:name=".activities.SingleInstanceActivity"
             android:launchMode="singleInstance" />
         <activity android:name=".activities.LaunchModeActivity" />
-        <activity android:name=".activities.StandardActivity"></activity>
+        <activity android:name=".activities.StandardActivity" />
+        <activity android:name=".activities.TabViewpagerActivity"></activity>
     </application>
 
 </manifest>
