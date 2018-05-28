@@ -57,9 +57,9 @@ public class TabViewpagerActivity extends AppCompatActivity {
 
     private void initViewPager() {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(FragmentD.newInstense("AAAAAAAAAAA"));
-        fragments.add(FragmentE.newInstense("BBBBBBBBBBB"));
-        fragments.add(FragmentF.newInstense("CCCCCCCCCCC"));
+        fragments.add(FragmentD.newInstense("A"));
+        fragments.add(FragmentE.newInstense("B"));
+        fragments.add(FragmentF.newInstense("C"));
         MyNewVpAdapter adapter = new MyNewVpAdapter(getSupportFragmentManager());
         adapter.setData(fragments);
         vpNav.setAdapter(adapter);
