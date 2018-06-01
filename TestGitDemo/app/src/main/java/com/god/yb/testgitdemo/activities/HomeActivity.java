@@ -115,7 +115,7 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -197,6 +197,9 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.bt12:
                 openActivity(TabViewpagerActivity.class);
+                break;
+            case R.id.bt13:
+                openActivity(MyViewActivity.class);
                 break;
 
         }
