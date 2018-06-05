@@ -11,6 +11,8 @@ import android.widget.EditText;
 
 import com.god.yb.testgitdemo.R;
 
+import java.math.BigDecimal;
+
 /**
  * Created by yaobing on 2018/6/5.
  * Description xxx
@@ -22,6 +24,7 @@ public class KeyUtils {
     private Keyboard keyboard;
     private EditText editText;
     private String t;
+    private final DoubleUtil doubleUtil;
 
     public KeyUtils(Context context, EditText editText) {
         mContext = context;
@@ -32,6 +35,7 @@ public class KeyUtils {
         keyboardView.setPreviewEnabled(false);
         keyboardView.setOnKeyboardActionListener(listener);
         keyboardView.setVisibility(View.GONE);
+        doubleUtil = new DoubleUtil();
     }
 
     public void show() {
@@ -87,7 +91,7 @@ public class KeyUtils {
                         editText.setText(i+"");
                     }else if (t.contains(".")) {
                         double d = Double.parseDouble(String.valueOf(editText.getText()));
-                        d++;
+                        d = doubleUtil.sum(d,1f);
                         editText.setText(d+"");
                     }
                     break;
@@ -99,7 +103,7 @@ public class KeyUtils {
 
                     }else if (t.contains(".")) {
                         double d = Double.parseDouble(String.valueOf(editText.getText()));
-                        d--;
+                        d = doubleUtil.sub(d,1f);
                         editText.setText(d+"");
                     }
                     break;
@@ -144,5 +148,78 @@ public class KeyUtils {
             Log.e(TAG, "swipeUp");
         }
     };
+
+    class DoubleUtil {
+        /**
+         * double 相加
+         * @param d1
+         * @param d2
+         * @return
+         */
+        public double sum(double d1,double d2){
+            BigDecimal bd1 = new BigDecimal(Double.toString(d1));
+            BigDecimal bd2 = new BigDecimal(Double.toString(d2));
+            return bd1.add(bd2).doubleValue();
+        }
+
+
+        /**
+         * double 相减
+         * @param d1
+         * @param d2
+         * @return
+         */
+        public double sub(double d1,double d2){
+            BigDecimal bd1 = new BigDecimal(Double.toString(d1));
+            BigDecimal bd2 = new BigDecimal(Double.toString(d2));
+            return bd1.subtract(bd2).doubleValue();
+        }
+
+        /**
+         * double 乘法
+         * @param d1
+         * @param d2
+         * @return
+         */
+        public double mul(double d1,double d2){
+            BigDecimal bd1 = new BigDecimal(Double.toString(d1));
+            BigDecimal bd2 = new BigDecimal(Double.toString(d2));
+            return bd1.multiply(bd2).doubleValue();
+        }
+
+
+        /**
+         * double 除法
+         * @param d1
+         * @param d2
+         * @param scale 四舍五入 小数点位数
+         * @return
+         */
+        public double div(double d1,double d2,int scale){
+            //  当然在此之前，你要判断分母是否为0，
+            //  为0你可以根据实际需求做相应的处理
+            BigDecimal bd1 = new BigDecimal(Double.toString(d1));
+            BigDecimal bd2 = new BigDecimal(Double.toString(d2));
+            return bd1.divide(bd2,scale,BigDecimal.ROUND_HALF_UP).doubleValue();
+        }
+
+        /**
+         * double 转 string 去掉后面锝0
+         * @param i
+         * @return
+         */
+        public String getString(double i){
+            String s = String.valueOf(i);
+            if(s.indexOf(".") > 0){
+                //正则表达
+                s = s.replaceAll("0+?$", "");//去掉后面无用的零
+                s = s.replaceAll("[.]$", "");//如小数点后面全是零则去掉小数点
+            }
+            return s;
+        }
+
+
+
+    }
 
 }
