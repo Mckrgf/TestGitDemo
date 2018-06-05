@@ -96,6 +96,7 @@ public class KeyUtils {
                         int i = Integer.parseInt(String.valueOf(editText.getText()));
                         i--;
                         editText.setText(i+"");
+
                     }else if (t.contains(".")) {
                         double d = Double.parseDouble(String.valueOf(editText.getText()));
                         d--;
