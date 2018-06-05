@@ -6,13 +6,37 @@
     android:layout_height="match_parent"
     tools:context="com.god.yb.testgitdemo.activities.MyViewActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <com.god.yb.testgitdemo.MyView.MyTestView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:id="@+id/et_test"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/hide"
+                android:text="hideKeyBoard"/>
+            <com.god.yb.testgitdemo.MyView.MyTestView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/red"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/my_view"
+        android:background="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
