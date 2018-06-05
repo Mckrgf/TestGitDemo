@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ public class KeyUtils {
     private KeyboardView keyboardView;
     private Keyboard keyboard;
     private EditText editText;
+    private String t;
 
     public KeyUtils(Context context, EditText editText) {
         mContext = context;
@@ -49,45 +51,66 @@ public class KeyUtils {
 
         @Override
         public void onRelease(int primaryCode) {
-            Log.e(TAG, "onRelease====:" + primaryCode);
+            t = String.valueOf(editText.getText());
             switch (primaryCode) {
                 case 10:
                     editText.setText(String.valueOf(editText.getText())+1);
-                    editText.setSelection(editText.getText().length());
                     break;
                 case 20:
                     editText.setText(String.valueOf(editText.getText())+2);
-                    editText.setSelection(editText.getText().length());
                     break;
                 case 30:
                     editText.setText(String.valueOf(editText.getText())+3);
-                    editText.setSelection(editText.getText().length());
                     break;
                 case 40:
                     editText.setText(String.valueOf(editText.getText())+4);
-                    editText.setSelection(editText.getText().length());
                     break;
                 case 50:
                     editText.setText(String.valueOf(editText.getText())+5);
-                    editText.setSelection(editText.getText().length());
                     break;
                 case 60:
                     editText.setText(String.valueOf(editText.getText())+6);
-                    editText.setSelection(editText.getText().length());
                     break;
                 case 70:
                     editText.setText(String.valueOf(editText.getText())+7);
-                    editText.setSelection(editText.getText().length());
                     break;
                 case 80:
                     editText.setText(String.valueOf(editText.getText())+8);
-                    editText.setSelection(editText.getText().length());
                     break;
                 case 90:
                     editText.setText(String.valueOf(editText.getText())+9);
-                    editText.setSelection(editText.getText().length());
+                    break;
+                case 5:
+                    if (!TextUtils.isEmpty(t)&&!t.contains(".")) {
+                        int i = Integer.parseInt(String.valueOf(editText.getText()));
+                        i++;
+                        editText.setText(i+"");
+                    }else if (t.contains(".")) {
+                        double d = Double.parseDouble(String.valueOf(editText.getText()));
+                        d++;
+                        editText.setText(d+"");
+                    }
+                    break;
+                case 6:
+                    if (!TextUtils.isEmpty(t)&&!t.contains(".")) {
+                        int i = Integer.parseInt(String.valueOf(editText.getText()));
+                        i--;
+                        editText.setText(i+"");
+                    }else if (t.contains(".")) {
+                        double d = Double.parseDouble(String.valueOf(editText.getText()));
+                        d--;
+                        editText.setText(d+"");
+                    }
+                    break;
+                case 7:
+                    if (!TextUtils.isEmpty(t)) {
+                        editText.setText(String.valueOf(editText.getText())+".");
+                    }else {
+                        editText.setText(String.valueOf(editText.getText())+".");
+                    }
                     break;
             }
+            editText.setSelection(editText.getText().length());
         }
 
         @Override

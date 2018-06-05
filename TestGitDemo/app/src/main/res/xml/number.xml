@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Row>
+    <Row
+        android:keyHeight="70dp">
         <Key
             android:codes="10"
             android:keyLabel="1"
-            android:keyWidth="25%p" />
+            android:keyWidth="25%p"
+            />
         <Key
             android:codes="20"
             android:keyLabel="2"
@@ -19,7 +21,8 @@
             android:keyLabel="+"
             android:keyWidth="25%p" />
     </Row>
-    <Row>
+    <Row
+        android:keyHeight="70dp">
         <Key
             android:codes="40"
             android:keyLabel="4"
@@ -37,7 +40,8 @@
             android:keyLabel="-"
             android:keyWidth="25%p" />
     </Row>
-    <Row>
+    <Row
+        android:keyHeight="70dp">
         <Key
             android:codes="70"
             android:keyLabel="7"
@@ -55,7 +59,8 @@
             android:keyLabel="."
             android:keyWidth="25%p" />
     </Row>
-    <Row>
+    <Row
+        android:keyHeight="70dp">
         <Key
             android:codes="NEXT"
             android:keyEdgeFlags="left"
