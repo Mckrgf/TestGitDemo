@@ -88,7 +88,6 @@ public class KeyUtils {
                     if (!TextUtils.isEmpty(t)&&!t.contains(".")) {
                         int i = Integer.parseInt(String.valueOf(editText.getText()));
                         i++;
-
                         editText.setText(i+"");
                     }else if (t.contains(".")) {
                         double d = Double.parseDouble(String.valueOf(editText.getText()));
