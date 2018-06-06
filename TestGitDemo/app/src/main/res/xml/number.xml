@@ -62,16 +62,21 @@
     <Row
         android:keyHeight="70dp">
         <Key
-            android:codes="NEXT"
-            android:keyEdgeFlags="left"
-            android:keyLabel="NEXT"
-            android:keyWidth="50%p" />
+            android:codes="1"
+            android:keyLabel="正常"
+            android:keyWidth="25%p" />
         <Key
-            android:codes="OK"
-            android:keyEdgeFlags="right"
-            android:keyLabel="OK"
-            android:keyOutputText="@string/app_name"
-            android:keyWidth="50%p" />
+            android:codes="2"
+            android:keyLabel="隐患"
+            android:keyWidth="25%p" />
+        <Key
+            android:codes="3"
+            android:keyLabel="确认"
+            android:keyWidth="25%p" />
+        <Key
+            android:codes="4"
+            android:keyLabel="删除"
+            android:keyWidth="25%p" />
     </Row>
 
 

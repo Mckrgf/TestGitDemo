@@ -41,6 +41,7 @@ public class KeyUtils {
     public void show() {
         keyboardView.setVisibility(View.VISIBLE);
     }
+
     public void hide() {
         keyboardView.setVisibility(View.GONE);
     }
@@ -58,60 +59,66 @@ public class KeyUtils {
             t = String.valueOf(editText.getText());
             switch (primaryCode) {
                 case 10:
-                    editText.setText(String.valueOf(editText.getText())+1);
+                    editText.setText(String.valueOf(editText.getText()) + 1);
                     break;
                 case 20:
-                    editText.setText(String.valueOf(editText.getText())+2);
+                    editText.setText(String.valueOf(editText.getText()) + 2);
                     break;
                 case 30:
-                    editText.setText(String.valueOf(editText.getText())+3);
+                    editText.setText(String.valueOf(editText.getText()) + 3);
                     break;
                 case 40:
-                    editText.setText(String.valueOf(editText.getText())+4);
+                    editText.setText(String.valueOf(editText.getText()) + 4);
                     break;
                 case 50:
-                    editText.setText(String.valueOf(editText.getText())+5);
+                    editText.setText(String.valueOf(editText.getText()) + 5);
                     break;
                 case 60:
-                    editText.setText(String.valueOf(editText.getText())+6);
+                    editText.setText(String.valueOf(editText.getText()) + 6);
                     break;
                 case 70:
-                    editText.setText(String.valueOf(editText.getText())+7);
+                    editText.setText(String.valueOf(editText.getText()) + 7);
                     break;
                 case 80:
-                    editText.setText(String.valueOf(editText.getText())+8);
+                    editText.setText(String.valueOf(editText.getText()) + 8);
                     break;
                 case 90:
-                    editText.setText(String.valueOf(editText.getText())+9);
+                    editText.setText(String.valueOf(editText.getText()) + 9);
                     break;
-                case 5:
-                    if (!TextUtils.isEmpty(t)&&!t.contains(".")) {
-                        int i = Integer.parseInt(String.valueOf(editText.getText()));
-                        i++;
-                        editText.setText(i+"");
-                    }else if (t.contains(".")) {
-                        double d = Double.parseDouble(String.valueOf(editText.getText()));
-                        d = doubleUtil.sum(d,1f);
-                        editText.setText(d+"");
-                    }
+                case 1:
+                    editText.setText("正常");
                     break;
-                case 6:
-                    if (!TextUtils.isEmpty(t)&&!t.contains(".")) {
-                        int i = Integer.parseInt(String.valueOf(editText.getText()));
-                        i--;
-                        editText.setText(i+"");
-
-                    }else if (t.contains(".")) {
-                        double d = Double.parseDouble(String.valueOf(editText.getText()));
-                        d = doubleUtil.sub(d,1f);
-                        editText.setText(d+"");
+                case 2:
+                    editText.setText("隐患");
+                    break;
+                case 3:
+                    keyboardView.setVisibility(View.GONE);
+                    editText.setFocusable(false);
+                    editText.setFocusableInTouchMode(true);
+                    break;
+                case 4:
+                    t = t.substring(0,t.length()-1);
+                    editText.setText(t);
+                    break;
+                case 5://正号
+                    if (t.contains("-") || t.contains("+")) {
+                        t = t.replace("-", "");
+                        t = t.replace("+", "");
                     }
+                    editText.setText("+" + t);
+                    break;
+                case 6://负号
+                    if (t.contains("-") || t.contains("+")) {
+                        t = t.replace("-", "");
+                        t = t.replace("+", "");
+                    }
+                    editText.setText("-" + t);
                     break;
                 case 7:
                     if (!TextUtils.isEmpty(t)) {
-                        editText.setText(String.valueOf(editText.getText())+".");
-                    }else {
-                        editText.setText(String.valueOf(editText.getText())+".");
+                        editText.setText(String.valueOf(editText.getText()) + ".");
+                    } else {
+                        editText.setText(String.valueOf(editText.getText()) + ".");
                     }
                     break;
             }
@@ -152,11 +159,12 @@ public class KeyUtils {
     class DoubleUtil {
         /**
          * double 相加
+         *
          * @param d1
          * @param d2
          * @return
          */
-        public double sum(double d1,double d2){
+        public double sum(double d1, double d2) {
             BigDecimal bd1 = new BigDecimal(Double.toString(d1));
             BigDecimal bd2 = new BigDecimal(Double.toString(d2));
             return bd1.add(bd2).doubleValue();
@@ -165,11 +173,12 @@ public class KeyUtils {
 
         /**
          * double 相减
+         *
          * @param d1
          * @param d2
          * @return
          */
-        public double sub(double d1,double d2){
+        public double sub(double d1, double d2) {
             BigDecimal bd1 = new BigDecimal(Double.toString(d1));
             BigDecimal bd2 = new BigDecimal(Double.toString(d2));
             return bd1.subtract(bd2).doubleValue();
@@ -177,11 +186,12 @@ public class KeyUtils {
 
         /**
          * double 乘法
+         *
          * @param d1
          * @param d2
          * @return
          */
-        public double mul(double d1,double d2){
+        public double mul(double d1, double d2) {
             BigDecimal bd1 = new BigDecimal(Double.toString(d1));
             BigDecimal bd2 = new BigDecimal(Double.toString(d2));
             return bd1.multiply(bd2).doubleValue();
@@ -190,34 +200,35 @@ public class KeyUtils {
 
         /**
          * double 除法
+         *
          * @param d1
          * @param d2
          * @param scale 四舍五入 小数点位数
          * @return
          */
-        public double div(double d1,double d2,int scale){
+        public double div(double d1, double d2, int scale) {
             //  当然在此之前，你要判断分母是否为0，
             //  为0你可以根据实际需求做相应的处理
             BigDecimal bd1 = new BigDecimal(Double.toString(d1));
             BigDecimal bd2 = new BigDecimal(Double.toString(d2));
-            return bd1.divide(bd2,scale,BigDecimal.ROUND_HALF_UP).doubleValue();
+            return bd1.divide(bd2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
         }
 
         /**
          * double 转 string 去掉后面锝0
+         *
          * @param i
          * @return
          */
-        public String getString(double i){
+        public String getString(double i) {
             String s = String.valueOf(i);
-            if(s.indexOf(".") > 0){
+            if (s.indexOf(".") > 0) {
                 //正则表达
                 s = s.replaceAll("0+?$", "");//去掉后面无用的零
                 s = s.replaceAll("[.]$", "");//如小数点后面全是零则去掉小数点
             }
             return s;
         }
-
 
 
     }
