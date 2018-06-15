@@ -37,7 +37,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        ToastUtil.showToast(this,"调用了onNewIntent");
+//        ToastUtil.showToast(this,"调用了onNewIntent");
     }
 
     @Override

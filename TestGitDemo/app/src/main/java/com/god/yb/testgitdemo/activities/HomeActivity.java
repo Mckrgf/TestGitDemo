@@ -23,6 +23,7 @@ import com.god.yb.testgitdemo.DBBean.UserDao;
 import com.god.yb.testgitdemo.Event.FallEvent;
 import com.god.yb.testgitdemo.FallTest.FallDetectionService;
 import com.god.yb.testgitdemo.R;
+import com.god.yb.testgitdemo.Service.LockService;
 import com.god.yb.testgitdemo.Utils.MyDateUtils;
 import com.god.yb.testgitdemo.Utils.ServiceUtils;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
@@ -83,6 +84,10 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Intent lock_intent = new Intent(this, LockService.class);
+        startService(lock_intent);
+
         ButterKnife.bind(this);
         intent_service = new Intent(getContext(), FallDetectionService.class);
         if (!Settings.canDrawOverlays(this)) {

@@ -50,7 +50,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="d081e76d53b5176ed0d64369c2cc0637"></meta-data>
+            android:value="d081e76d53b5176ed0d64369c2cc0637" />
 
         <activity
             android:name=".activities.ServiceDemoActivity"
@@ -128,7 +128,20 @@
         <activity android:name=".activities.LaunchModeActivity" />
         <activity android:name=".activities.StandardActivity" />
         <activity android:name=".activities.TabViewpagerActivity" />
-        <activity android:name=".activities.MyViewActivity"></activity>
+        <activity android:name=".activities.MyViewActivity" />
+
+        <service
+            android:name=".Service.LockService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".activities.LockScreenActivity"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.package.name.lockscreen"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+            ></activity>
     </application>
 
 </manifest>
