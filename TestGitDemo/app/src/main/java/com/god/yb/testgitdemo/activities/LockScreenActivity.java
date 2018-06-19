@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.god.yb.testgitdemo.App;
 import com.god.yb.testgitdemo.R;
 
 import butterknife.BindView;
@@ -30,6 +31,13 @@ public class LockScreenActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        App.screenIsLock = true;
+    }
+
     //监听系统的物理按键
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -43,7 +51,13 @@ public class LockScreenActivity extends BaseActivity {
             Log.i("tag", "===KEYCODE_MENU====");
             finish();
         }
-        return true;
+        return false;
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.screenIsLock = false;
+    }
 }

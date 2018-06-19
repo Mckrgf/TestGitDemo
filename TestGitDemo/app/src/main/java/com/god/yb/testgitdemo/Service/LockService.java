@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 
-import com.god.yb.testgitdemo.LockReceiver;
+import com.god.yb.testgitdemo.Receiver.HomeReceiver;
+import com.god.yb.testgitdemo.Receiver.LockReceiver;
 
 public class LockService extends Service {
 
     private LockReceiver lockReceiver;
+    private HomeReceiver homeReceiver;
 
     public LockService() {
     }
@@ -28,11 +30,18 @@ public class LockService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(lockReceiver,filter);
+
+        homeReceiver = new HomeReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        registerReceiver(homeReceiver,intentFilter);
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(lockReceiver);
+        unregisterReceiver(homeReceiver);
     }
 }

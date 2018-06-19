@@ -135,13 +135,20 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activities.LockScreenActivity"
+        <activity
+            android:name=".activities.LockScreenActivity"
             android:exported="false"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:taskAffinity="com.package.name.lockscreen"
             android:theme="@style/Theme.Design.Light.NoActionBar">
-            ></activity>
+            >
+        </activity>
+
+        <receiver
+            android:name=".Receiver.HomeReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

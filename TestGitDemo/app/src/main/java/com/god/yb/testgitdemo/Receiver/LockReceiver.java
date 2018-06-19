@@ -1,4 +1,4 @@
-package com.god.yb.testgitdemo;
+package com.god.yb.testgitdemo.Receiver;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -22,7 +22,7 @@ public class LockReceiver extends BroadcastReceiver {
         if (action.equals(Intent.ACTION_SCREEN_OFF)) {
             Log.i(TAG,"lock_on_screen_off");
             Intent lockscreen = new Intent(context,LockScreenActivity.class);
-            lockscreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            lockscreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
             context.startActivity(lockscreen);
         }else if (action.equals(Intent.ACTION_SCREEN_ON)) {
             Log.i(TAG,"lock_off_screen_on");

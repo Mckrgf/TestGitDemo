@@ -90,11 +90,11 @@ public class HomeActivity extends BaseActivity {
 
         ButterKnife.bind(this);
         intent_service = new Intent(getContext(), FallDetectionService.class);
-        if (!Settings.canDrawOverlays(this)) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-            intent.setData(Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, 100);
-        }
+//        if (!Settings.canDrawOverlays(this)) {
+//            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+//            intent.setData(Uri.parse("package:" + getPackageName()));
+//            startActivityForResult(intent, 100);
+//        }
 
         int w = View.MeasureSpec.makeMeasureSpec(0,
                 View.MeasureSpec.UNSPECIFIED);
