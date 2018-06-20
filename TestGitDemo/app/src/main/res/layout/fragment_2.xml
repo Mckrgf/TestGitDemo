@@ -13,4 +13,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_fragment_a_content_a"/>
 
+    <com.god.yb.testgitdemo.MyView.SuperSearchView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/superview"/>
+
 </LinearLayout>

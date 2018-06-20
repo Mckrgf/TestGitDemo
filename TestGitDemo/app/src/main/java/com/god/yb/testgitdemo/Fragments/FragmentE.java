@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.god.yb.testgitdemo.MyView.SuperSearchView;
 import com.god.yb.testgitdemo.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by yaobing on 2018/3/8.
@@ -22,6 +25,7 @@ public class FragmentE extends Fragment {
     private Activity mActivity;
     private static String Fragment_key = "test_key";
     private TextView view;
+    private ArrayList<String> datas = new ArrayList<>();
 
     @Override
     public void onAttach(Context context) {
@@ -35,7 +39,16 @@ public class FragmentE extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_2, container, false);
         view = root.findViewById(R.id.tv_fragment_a_content_a);
-        view.setText(mPara); return root;
+        view.setText(mPara);
+
+        for (int i = 0; i < 50; i++) {
+            datas.add("测试数据"+i);
+        }
+
+        SuperSearchView superSearchView = root.findViewById(R.id.superview);
+        superSearchView.setDatas(datas);
+
+        return root;
     }
 
     public static FragmentE newInstense(String mPara) {
