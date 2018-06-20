@@ -48,7 +48,7 @@ public class App extends Application {
         super.onCreate();
 
         initHttp();
-        CrashHandler.getInstance().init(this);
+//        CrashHandler.getInstance().init(this);
         ZXingLibrary.initDisplayOpinion(this);
         //MigrationHelper.DEBUG = true; //如果你想查看日志信息，请将DEBUG设置为true
         Helper helper = new Helper(this, "test.db",
