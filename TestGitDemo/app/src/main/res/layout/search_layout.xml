@@ -48,5 +48,5 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/lv_search_tips_bg"
-        android:visibility="gone"></ListView>
+        android:visibility="gone"/>
 </LinearLayout>

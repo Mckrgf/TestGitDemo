@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.god.yb.testgitdemo.R;
-import com.god.yb.testgitdemo.viewSearch.adapter.SearchAdapter;
 import com.god.yb.testgitdemo.viewSearch.model.Bean;
 import com.god.yb.testgitdemo.viewSearch.widge.SearchView;
 
@@ -33,13 +32,9 @@ public class FragmentF extends Fragment implements SearchView.SearchViewListener
 
     private ArrayAdapter<String> autoCompleteAdapter;
 
-    private SearchAdapter resultAdapter;
-
     private List<Bean> dbData;
 
     private List<String> autoCompleteData;
-
-    private List<Bean> resultData;
 
     @Override
     public void onAttach(Context context) {
@@ -80,8 +75,6 @@ public class FragmentF extends Fragment implements SearchView.SearchViewListener
         getDbData();
         //初始化自动补全数据
         getAutoCompleteData(null);
-        //初始化搜索结果数据
-        getResultData(null);
     }
 
 
@@ -117,28 +110,6 @@ public class FragmentF extends Fragment implements SearchView.SearchViewListener
             autoCompleteAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, autoCompleteData);
         } else {
             autoCompleteAdapter.notifyDataSetChanged();
-        }
-    }
-
-    /**
-     * 获取搜索结果data和adapter
-     */
-    private void getResultData(String text) {
-        if (resultData == null) {
-            // 初始化
-            resultData = new ArrayList<>();
-        } else {
-            resultData.clear();
-            for (int i = 0; i < dbData.size(); i++) {
-                if (dbData.get(i).getTitle().contains(text.trim())) {
-                    resultData.add(dbData.get(i));
-                }
-            }
-        }
-        if (resultAdapter == null) {
-            resultAdapter = new SearchAdapter(getContext(), resultData, R.layout.item_bean_list);
-        } else {
-            resultAdapter.notifyDataSetChanged();
         }
     }
 
