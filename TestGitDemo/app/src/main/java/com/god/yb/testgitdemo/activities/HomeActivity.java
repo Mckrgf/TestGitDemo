@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -280,6 +281,12 @@ public class HomeActivity extends BaseActivity {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        ToastUtil.showToast(getApp(),keyCode+"");
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

@@ -29,12 +29,19 @@ public class LockService extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction("com.agold.hy.ptt.down");
+        filter.addAction("com.agold.hy.ptt");
+        filter.addAction("com.agold.hy.sos.down");
+        filter.addAction("com.agold.hy.sos");
+        filter.addAction("SEND_RECEIVER");
         registerReceiver(lockReceiver,filter);
 
         homeReceiver = new HomeReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         registerReceiver(homeReceiver,intentFilter);
+
+
 
     }
 

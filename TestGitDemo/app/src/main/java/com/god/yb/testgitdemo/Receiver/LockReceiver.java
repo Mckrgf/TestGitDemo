@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.god.yb.testgitdemo.Utils.ToastUtil;
 import com.god.yb.testgitdemo.activities.LockScreenActivity;
 
 /**
@@ -19,6 +20,7 @@ public class LockReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        Log.d(TAG,action);
         if (action.equals(Intent.ACTION_SCREEN_OFF)) {
             Log.i(TAG,"lock_on_screen_off");
             Intent lockscreen = new Intent(context,LockScreenActivity.class);
@@ -26,6 +28,12 @@ public class LockReceiver extends BroadcastReceiver {
             context.startActivity(lockscreen);
         }else if (action.equals(Intent.ACTION_SCREEN_ON)) {
             Log.i(TAG,"lock_off_screen_on");
+        }else if (action.contains("com.agold.hy.ptt")) {
+            Log.i(TAG,"282的按键广播");
+        }else if (action.contains("com.agold.hy.sos")) {
+            Log.i(TAG,"281的按键广播");
+        }else if (action.contains("SEND_RECEIVER")) {
+            Log.i(TAG,"281的按键广播");
         }
     }
 }
