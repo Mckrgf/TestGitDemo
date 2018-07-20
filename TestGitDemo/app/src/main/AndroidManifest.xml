@@ -148,7 +148,9 @@
         <receiver
             android:name=".Receiver.HomeReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
+
+        <activity android:name=".activities.NetRertofitActivity"></activity>
     </application>
 
 </manifest>

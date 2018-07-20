@@ -31,9 +31,7 @@ public class BaseActivity extends AppCompatActivity {
     private IntentFilter tagDetected = null;
     private IntentFilter[] intentFiltersArray;
     String[][] techListsArray;
-
-    private static final String TAG = "BaseActivity";
-
+    protected String TAG;
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -50,6 +48,7 @@ public class BaseActivity extends AppCompatActivity {
         for (int i = 0; i < ((App) getApp()).getActivitylists().size(); i++) {
             activities = activities + "\n" + ((App) getApp()).getActivitylists().get(i).toString();
         }
+        TAG = this.getClass().getSimpleName();
         Log.d(TAG, activities);
     }
 

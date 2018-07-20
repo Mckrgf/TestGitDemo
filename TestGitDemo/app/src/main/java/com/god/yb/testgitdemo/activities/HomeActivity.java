@@ -3,7 +3,6 @@ package com.god.yb.testgitdemo.activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -40,6 +39,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class HomeActivity extends BaseActivity {
 
@@ -55,8 +57,6 @@ public class HomeActivity extends BaseActivity {
     Button bt5;
     @BindView(R.id.bt6)
     Button bt6;
-
-    private static final String TAG = "HomeActivity";
     @BindView(R.id.ll_bottom)
     LinearLayout llBottom;
     @BindView(R.id.bt7)
@@ -71,6 +71,10 @@ public class HomeActivity extends BaseActivity {
     Button bt11;
     @BindView(R.id.bt12)
     Button bt12;
+    @BindView(R.id.bt13)
+    Button bt13;
+    @BindView(R.id.bt14)
+    Button bt14;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
@@ -84,6 +88,9 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //rx excute
+        excuteRX();
 
         Intent lock_intent = new Intent(this, LockService.class);
         startService(lock_intent);
@@ -120,7 +127,32 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13})
+    private void excuteRX() {
+
+        Observable.just(111).subscribe(new Observer<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                ToastUtil.showToast(getApp(), "-------------------" + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13, R.id.bt14})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -197,7 +229,7 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.bt11:
                 Intent intent2 = new Intent(HomeActivity.this, NFCActivity.class);
-                intent2.putExtra("card",1);
+                intent2.putExtra("card", 1);
                 startActivity(intent2);
                 break;
             case R.id.bt12:
@@ -205,6 +237,9 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.bt13:
                 openActivity(MyViewActivity.class);
+                break;
+            case R.id.bt14:
+                openActivity(NetRertofitActivity.class);
                 break;
 
         }
@@ -232,7 +267,7 @@ public class HomeActivity extends BaseActivity {
         switch (service_state) {
             case 0:
                 //要重启服务
-                Log.i(TAG,"收到信息重启跌落检测服务");
+                Log.i(TAG, "收到信息重启跌落检测服务");
                 bt10.setText("关闭跌落检测服务,当前状态:开启中");
                 getContext().stopService(intent_service);
                 getContext().startService(intent_service);

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.god.yb.testgitdemo.R;
 
@@ -44,6 +45,7 @@ public class SuperSearchView extends LinearLayout {
     public SuperSearchView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         View root = LayoutInflater.from(context).inflate(R.layout.view_super_search, this);
+        ListView lv_answer = root.findViewById(R.id.lv_answer);
         EditText editText = root.findViewById(R.id.et_search);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -63,6 +65,7 @@ public class SuperSearchView extends LinearLayout {
                 }
                 Log.d(TAG, "获取到的数据大小: " + datas_search.size());
                 // TODO: 2018/6/21 显示获取到的数据的列表
+                
             }
 
             @Override
