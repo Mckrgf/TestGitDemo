@@ -34,6 +34,10 @@ public class LockReceiver extends BroadcastReceiver {
             Log.i(TAG,"281的按键广播");
         }else if (action.contains("SEND_RECEIVER")) {
             Log.i(TAG,"281的按键广播");
+        }else if (action.contains(Intent.EXTRA_KEY_EVENT)) {
+            Log.i(TAG,"耳机按键的按键广播");
+        }else if (action.contains(Intent.ACTION_MEDIA_BUTTON)) {
+            Log.i(TAG,"耳机按键的按键广播");
         }
     }
 }

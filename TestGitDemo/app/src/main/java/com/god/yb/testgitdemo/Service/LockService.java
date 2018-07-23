@@ -29,6 +29,8 @@ public class LockService extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.EXTRA_KEY_EVENT);
+        filter.addAction(Intent.ACTION_MEDIA_BUTTON);
         filter.addAction("com.agold.hy.ptt.down");
         filter.addAction("com.agold.hy.ptt");
         filter.addAction("com.agold.hy.sos.down");
