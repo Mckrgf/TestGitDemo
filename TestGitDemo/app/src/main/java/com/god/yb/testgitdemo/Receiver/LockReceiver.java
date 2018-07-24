@@ -38,6 +38,8 @@ public class LockReceiver extends BroadcastReceiver {
             Log.i(TAG,"耳机按键的按键广播");
         }else if (action.contains(Intent.ACTION_MEDIA_BUTTON)) {
             Log.i(TAG,"耳机按键的按键广播");
+        }else if (action.contains(Intent.ACTION_CONFIGURATION_CHANGED)) {
+            Log.i(TAG,"dscsdvsdvsdvsvdv");
         }
     }
 }

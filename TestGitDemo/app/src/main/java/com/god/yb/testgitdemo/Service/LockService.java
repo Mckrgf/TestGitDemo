@@ -31,10 +31,12 @@ public class LockService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.EXTRA_KEY_EVENT);
         filter.addAction(Intent.ACTION_MEDIA_BUTTON);
+        filter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
         filter.addAction("com.agold.hy.ptt.down");
         filter.addAction("com.agold.hy.ptt");
         filter.addAction("com.agold.hy.sos.down");
         filter.addAction("com.agold.hy.sos");
+        filter.addAction("SEND_RECEIVER");
         filter.addAction("SEND_RECEIVER");
         registerReceiver(lockReceiver,filter);
 
