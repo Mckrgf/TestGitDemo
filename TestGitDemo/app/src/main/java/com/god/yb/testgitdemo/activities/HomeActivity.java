@@ -1,6 +1,7 @@
 package com.god.yb.testgitdemo.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -76,6 +78,8 @@ public class HomeActivity extends BaseActivity {
     Button bt13;
     @BindView(R.id.bt14)
     Button bt14;
+    @BindView(R.id.bt15)
+    Button bt15;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
@@ -84,6 +88,7 @@ public class HomeActivity extends BaseActivity {
     private boolean serviceRunning;
     private Intent intent_service;
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +97,29 @@ public class HomeActivity extends BaseActivity {
 
         //rx excute
         excuteRX();
+        ButterKnife.bind(this);
+
+        bt15.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        bt15.setText("录音中");
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        bt15.setText("开始录音");
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        bt15.setText("识别中");
+                        break;
+                }
+                return false;
+            }
+        });
 
         Intent lock_intent = new Intent(this, LockService.class);
         startService(lock_intent);
 
-        ButterKnife.bind(this);
         intent_service = new Intent(getContext(), FallDetectionService.class);
 //        if (!Settings.canDrawOverlays(this)) {
 //            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
@@ -153,7 +176,7 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13, R.id.bt14})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13, R.id.bt14, R.id.bt15})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -285,7 +308,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        ToastUtil.showToast(getApp(),keyCode+"");
+        ToastUtil.showToast(getApp(), keyCode + "");
         return super.onKeyDown(keyCode, event);
     }
 
@@ -293,6 +316,11 @@ public class HomeActivity extends BaseActivity {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     @Override

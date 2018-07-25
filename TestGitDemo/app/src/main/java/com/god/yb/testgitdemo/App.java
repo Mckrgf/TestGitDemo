@@ -10,6 +10,8 @@ import com.god.yb.testgitdemo.DBBean.DaoSession;
 import com.god.yb.testgitdemo.DBBean.Helper;
 import com.god.yb.testgitdemo.Utils.AppUtils;
 import com.god.yb.testgitdemo.Utils.CrashHandler;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -56,6 +58,10 @@ public class App extends Application {
         daoMaster = new DaoMaster(helper.getWritableDatabase());
         initDB();
         Log.i(TAG,"当前的进程名字是：" + AppUtils.getCurProcessName(this));
+        // 将“12345678”替换成您申请的APPID，申请地址：http://www.xfyun.cn
+        // 请勿在“=”与appid之间添加任何空字符或者转义符
+        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5b58418c");
+//        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5b58418c"+","+SpeechConstant.ENGINE_MODE+"="+"msc");
     }
 
 
