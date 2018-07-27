@@ -160,6 +160,11 @@
             android:exported="true" />
 
         <activity android:name=".activities.NetRertofitActivity"></activity>
+        <activity
+            android:name=".activities.IatDemo"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

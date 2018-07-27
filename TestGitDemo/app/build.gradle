@@ -75,5 +75,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     //转换器，请求结果转换成Model
-    implementation files('libs/Msc.jar')
+    implementation files('src/main/jniLibs/Sunflower.jar')
+    implementation files('src/main/jniLibs/Msc.jar')
 }

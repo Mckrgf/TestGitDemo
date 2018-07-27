@@ -98,25 +98,6 @@ public class HomeActivity extends BaseActivity {
         //rx excute
         excuteRX();
         ButterKnife.bind(this);
-
-        bt15.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        bt15.setText("录音中");
-                        break;
-                    case MotionEvent.ACTION_DOWN:
-                        bt15.setText("开始录音");
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        bt15.setText("识别中");
-                        break;
-                }
-                return false;
-            }
-        });
-
         Intent lock_intent = new Intent(this, LockService.class);
         startService(lock_intent);
 
@@ -264,6 +245,9 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.bt14:
                 openActivity(NetRertofitActivity.class);
+                break;
+            case R.id.bt15:
+                openActivity(IatDemo.class);
                 break;
 
         }
