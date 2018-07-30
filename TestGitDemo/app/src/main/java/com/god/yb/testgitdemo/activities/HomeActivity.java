@@ -80,6 +80,8 @@ public class HomeActivity extends BaseActivity {
     Button bt14;
     @BindView(R.id.bt15)
     Button bt15;
+    @BindView(R.id.bt16)
+    Button bt16;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
@@ -98,8 +100,10 @@ public class HomeActivity extends BaseActivity {
         //rx excute
         excuteRX();
         ButterKnife.bind(this);
-        Intent lock_intent = new Intent(this, LockService.class);
-        startService(lock_intent);
+
+        //开启锁屏
+//        Intent lock_intent = new Intent(this, LockService.class);
+//        startService(lock_intent);
 
         intent_service = new Intent(getContext(), FallDetectionService.class);
 //        if (!Settings.canDrawOverlays(this)) {
@@ -157,7 +161,7 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13, R.id.bt14, R.id.bt15})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt16, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13, R.id.bt14, R.id.bt15})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -248,6 +252,9 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.bt15:
                 openActivity(IatDemo.class);
+                break;
+            case R.id.bt16:
+                openActivity(WebviewActivity.class);
                 break;
 
         }
