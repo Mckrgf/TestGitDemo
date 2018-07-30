@@ -181,6 +181,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt15" />
 
+        <EditText
+            app:layout_constraintTop_toBottomOf="@+id/bt16"
+            android:id="@+id/et_search_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType=""
+            android:hint="请输入首字母/首字母检索"/>
+
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/ll_bottom"

@@ -7,15 +7,21 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.service.autofill.CharSequenceTransformation;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.god.yb.testgitdemo.App;
@@ -25,9 +31,9 @@ import com.god.yb.testgitdemo.DBBean.UserDao;
 import com.god.yb.testgitdemo.Event.FallEvent;
 import com.god.yb.testgitdemo.FallTest.FallDetectionService;
 import com.god.yb.testgitdemo.R;
-import com.god.yb.testgitdemo.Service.LockService;
 import com.god.yb.testgitdemo.Utils.MyDateUtils;
 import com.god.yb.testgitdemo.Utils.ServiceUtils;
+import com.god.yb.testgitdemo.Utils.StringUtil;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -37,6 +43,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -82,6 +89,8 @@ public class HomeActivity extends BaseActivity {
     Button bt15;
     @BindView(R.id.bt16)
     Button bt16;
+    @BindView(R.id.et_search_name)
+    EditText etSearchName;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
@@ -112,6 +121,51 @@ public class HomeActivity extends BaseActivity {
 //            startActivityForResult(intent, 100);
 //        }
 
+        //首字母转换
+        final ArrayList names = new ArrayList();
+        String name = "姚冰";
+        names.add(name);
+        name = "李宁";
+        names.add(name);
+        name = "要兵";
+        names.add(name);
+        name = "詹姆斯";
+        names.add(name);
+        ToastUtil.showToast(this, StringUtil.getFirstSpell("姚冰"));
+
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String result = "";
+                s = s.toString().toLowerCase();
+                if (!TextUtils.isEmpty(s)) {
+                    for (int i = 0; i < names.size(); i++) {
+                        String name = names.get(i).toString();
+                        if (StringUtil.getFirstSpell(name).contains(s)) {
+                            Log.d(TAG, "这个名字： " + name + "包含" + s);
+                            result = result  + name+ " , ";
+                        }
+                    }
+                    if (result.equals("")) {
+                        ToastUtil.showToast(getApp(),"根据 ：" + s + "查询不到结果");
+                    }else {
+                        ToastUtil.showToast(getApp(),"根据 ：" + s + "查询到如下结果：" + result);
+                    }
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        etSearchName.addTextChangedListener(watcher);
         int w = View.MeasureSpec.makeMeasureSpec(0,
                 View.MeasureSpec.UNSPECIFIED);
         int h = View.MeasureSpec.makeMeasureSpec(0,
@@ -299,7 +353,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        ToastUtil.showToast(getApp(), keyCode + "");
+//        ToastUtil.showToast(getApp(), keyCode + "");
         return super.onKeyDown(keyCode, event);
     }
 
