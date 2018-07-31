@@ -123,13 +123,17 @@ public class HomeActivity extends BaseActivity {
 
         //首字母转换
         final ArrayList names = new ArrayList();
-        String name = "姚冰";
+        String name = "科比";
         names.add(name);
-        name = "李宁";
+        name = "乔丹";
         names.add(name);
-        name = "要兵";
+        name = "哈登";
         names.add(name);
         name = "詹姆斯";
+        names.add(name);
+        name = "asdfgh";
+        names.add(name);
+        name = "12456";
         names.add(name);
         ToastUtil.showToast(this, StringUtil.getFirstSpell("姚冰"));
 
@@ -146,7 +150,10 @@ public class HomeActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(s)) {
                     for (int i = 0; i < names.size(); i++) {
                         String name = names.get(i).toString();
-                        if (StringUtil.getFirstSpell(name).contains(s)) {
+                        boolean a = StringUtil.getFirstSpell(name).contains(s);
+                        boolean b = StringUtil.getFullSpell(name).contains(s);
+                        boolean c = name.contains(s);
+                        if (a|b|c) {
                             Log.d(TAG, "这个名字： " + name + "包含" + s);
                             result = result  + name+ " , ";
                         }
