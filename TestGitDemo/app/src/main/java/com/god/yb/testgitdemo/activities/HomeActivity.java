@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.service.autofill.CharSequenceTransformation;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.god.yb.testgitdemo.App;
@@ -122,16 +120,20 @@ public class HomeActivity extends BaseActivity {
 //        }
 
         //首字母转换
-        final ArrayList names = new ArrayList();
-        String name = "科比";
+        final ArrayList<Object> names = new ArrayList<>();
+        String name = "费振华";
         names.add(name);
-        name = "乔丹";
+        name = "赵蔚文";
         names.add(name);
-        name = "哈登";
+        name = "杨晶";
         names.add(name);
-        name = "詹姆斯";
+        name = "张雪吟";
         names.add(name);
-        name = "asdfgh";
+        name = "姚冰";
+        names.add(name);
+        name = "江宏晖";
+        names.add(name);
+        name = "陈雨超";
         names.add(name);
         name = "12456";
         names.add(name);
@@ -145,7 +147,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String result = "";
+                StringBuilder result = new StringBuilder();
                 s = s.toString().toLowerCase();
                 if (!TextUtils.isEmpty(s)) {
                     for (int i = 0; i < names.size(); i++) {
@@ -155,10 +157,10 @@ public class HomeActivity extends BaseActivity {
                         boolean c = name.contains(s);
                         if (a|b|c) {
                             Log.d(TAG, "这个名字： " + name + "包含" + s);
-                            result = result  + name+ " , ";
+                            result.append(name).append(" , ");
                         }
                     }
-                    if (result.equals("")) {
+                    if (result.toString().equals("")) {
                         ToastUtil.showToast(getApp(),"根据 ：" + s + "查询不到结果");
                     }else {
                         ToastUtil.showToast(getApp(),"根据 ：" + s + "查询到如下结果：" + result);
@@ -179,7 +181,7 @@ public class HomeActivity extends BaseActivity {
                 View.MeasureSpec.UNSPECIFIED);
         llBottom.measure(w, h);
         height = llBottom.getMeasuredHeight();
-        int width = llBottom.getMeasuredWidth();
+//        int width = llBottom.getMeasuredWidth();
         if (ContextCompat.checkSelfPermission(getApp(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //如果没有权限，就申请，然后走回调方法，在回调成功的时候调用拍照方法
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.VIBRATE}, 1);
