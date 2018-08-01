@@ -7,6 +7,8 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
+import java.util.Random;
+
 
 /**
  * Created by yaobing on 2018/7/30.
@@ -93,6 +95,54 @@ public class StringUtil {
             }
         }
         return pybf.toString();
+    }
+
+    /**
+     * 创建指定数量的随机字符串
+     * @param numberFlag 是否是数字
+     * @param length
+     * @return
+     */
+    public static String createRandom(boolean numberFlag, int length){
+        String retStr = "";
+        String strTable = numberFlag ? "1234567890" : "1234567890abcdefghijkmnpqrstuvwxyz";
+        int len = strTable.length();
+        boolean bDone = true;
+        do {
+            retStr = "";
+            int count = 0;
+            for (int i = 0; i < length; i++) {
+                double dblR = Math.random() * len;
+                int intR = (int) Math.floor(dblR);
+                char c = strTable.charAt(intR);
+                if (('0' <= c) && (c <= '9')) {
+                    count++;
+                }
+                retStr += strTable.charAt(intR);
+            }
+            if (count >= 2) {
+                bDone = false;
+            }
+        } while (bDone);
+
+        return retStr;
+    }
+
+    public static String getRandomString(int length){
+        //定义一个字符串（A-Z，a-z，0-9）即62位；
+        String str="zxcvbnmlkjhgfdsaqwertyuiopQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+        //由Random生成随机数
+        Random random=new Random();
+        StringBuffer sb=new StringBuffer();
+        //长度为几就循环几次
+        for(int i=0; i<length; ++i){
+            //产生0-61的数字
+            int number=random.nextInt(62);
+            //将产生的数字通过length次承载到sb中
+            sb.append(str.charAt(number));
+        }
+        //将承载的字符转换成字符串
+        return sb.toString();
     }
 
     public static void main(String[] args)

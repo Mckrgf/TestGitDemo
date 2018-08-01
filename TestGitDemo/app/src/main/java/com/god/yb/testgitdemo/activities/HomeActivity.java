@@ -96,6 +96,9 @@ public class HomeActivity extends BaseActivity {
     private int height;
     private boolean serviceRunning;
     private Intent intent_service;
+    private List<User> users;
+    private DaoSession daoSession;
+    private UserDao userDao;
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -103,7 +106,8 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        daoSession = ((App) getApplication()).getDaoSession();
+        userDao = daoSession.getUserDao();
         //rx excute
         excuteRX();
         ButterKnife.bind(this);
@@ -139,6 +143,11 @@ public class HomeActivity extends BaseActivity {
         names.add(name);
         ToastUtil.showToast(this, StringUtil.getFirstSpell("姚冰"));
 
+        for (int i = 0; i < 2000; i++) {
+            names.add(StringUtil.getRandomString(3));
+        }
+
+
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -147,23 +156,44 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                StringBuilder result = new StringBuilder();
+//                s = s.toString().toLowerCase();
+//                if (!TextUtils.isEmpty(s)) {
+//                    for (int i = 0; i < names.size(); i++) {
+//                        String name = names.get(i).toString();
+//                        boolean a = StringUtil.getFirstSpell(name).contains(s);
+//                        boolean b = StringUtil.getFullSpell(name).contains(s);
+//                        boolean c = name.contains(s);
+//                        if (a | b | c) {
+//                            Log.d(TAG, "这个名字： " + name + "包含" + s);
+//                            result.append(name).append(" , ");
+//                        }
+//                    }
+//                    if (result.toString().equals("")) {
+//                        ToastUtil.showToast(getApp(), "根据 ：" + s + "查询不到结果");
+//                    } else {
+//                        ToastUtil.showToast(getApp(), "根据 ：" + s + "查询到如下结果：" + result);
+//                    }
+//
+//                }
+                users = userDao.queryBuilder().build().list();
                 StringBuilder result = new StringBuilder();
                 s = s.toString().toLowerCase();
                 if (!TextUtils.isEmpty(s)) {
-                    for (int i = 0; i < names.size(); i++) {
-                        String name = names.get(i).toString();
+                    for (int i = 0; i < users.size(); i++) {
+                        String name = users.get(i).getUsername().toString();
                         boolean a = StringUtil.getFirstSpell(name).contains(s);
                         boolean b = StringUtil.getFullSpell(name).contains(s);
                         boolean c = name.contains(s);
-                        if (a|b|c) {
+                        if (a | b | c) {
                             Log.d(TAG, "这个名字： " + name + "包含" + s);
                             result.append(name).append(" , ");
                         }
                     }
                     if (result.toString().equals("")) {
-                        ToastUtil.showToast(getApp(),"根据 ：" + s + "查询不到结果");
-                    }else {
-                        ToastUtil.showToast(getApp(),"根据 ：" + s + "查询到如下结果：" + result);
+                        ToastUtil.showToast(getApp(), "根据 ：" + s + "查询不到结果");
+                    } else {
+                        ToastUtil.showToast(getApp(), "根据 ：" + s + "查询到如下结果：" + result);
                     }
 
                 }
@@ -238,15 +268,17 @@ public class HomeActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.bt3:
-                DaoSession daoSession = ((App) getApplication()).getDaoSession();
-                UserDao userDao = daoSession.getUserDao();
-                User user = new User();
-                user.setPassword("123");
-                user.setUsername(MyDateUtils.getCurTime(""));
-                userDao.insert(user);
-                Log.i(TAG, "Add a User bean to Datebase" + user.getUsername());
 
-                List<User> users = userDao.queryBuilder().build().list();
+
+
+
+                for (int i = 0; i < 1000; i++) {
+                    User user = new User();
+                    user.setPassword("123");
+                    user.setUsername(StringUtil.getRandomString(5));
+                    userDao.insert(user);
+                }
+                users = userDao.queryBuilder().build().list();
                 for (int i = 0; i < users.size(); i++) {
                     Log.i(TAG, i + "用户" + users.get(i).getUsername() + "\n");
                 }
