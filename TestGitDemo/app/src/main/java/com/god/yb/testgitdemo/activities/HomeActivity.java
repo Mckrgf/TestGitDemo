@@ -179,12 +179,13 @@ public class HomeActivity extends BaseActivity {
                 users = userDao.queryBuilder().build().list();
                 StringBuilder result = new StringBuilder();
                 s = s.toString().toLowerCase();
+                Log.d(TAG,"用户列表数量为： " + users.size());
                 if (!TextUtils.isEmpty(s)) {
                     for (int i = 0; i < users.size(); i++) {
-                        String name = users.get(i).getUsername().toString();
-                        boolean a = StringUtil.getFirstSpell(name).contains(s);
-                        boolean b = StringUtil.getFullSpell(name).contains(s);
-                        boolean c = name.contains(s);
+                        String name = users.get(i).getUsername().toString().toLowerCase();
+                        boolean a = StringUtil.getFirstSpell(name).toLowerCase().contains(s);
+                        boolean b = StringUtil.getFullSpell(name).toLowerCase().contains(s);
+                        boolean c = name.toLowerCase() .contains(s);
                         if (a | b | c) {
                             Log.d(TAG, "这个名字： " + name + "包含" + s);
                             result.append(name).append(" , ");
