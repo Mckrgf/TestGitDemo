@@ -124,7 +124,7 @@ public class HomeActivity extends BaseActivity {
 //        }
 
         //首字母转换
-        final ArrayList<Object> names = new ArrayList<>();
+        final ArrayList<String> names = new ArrayList<>();
         String name = "费振华";
         names.add(name);
         name = "赵蔚文";
@@ -141,12 +141,12 @@ public class HomeActivity extends BaseActivity {
         names.add(name);
         name = "12456";
         names.add(name);
-        ToastUtil.showToast(this, StringUtil.getFirstSpell("姚冰"));
-
-        for (int i = 0; i < 2000; i++) {
-            names.add(StringUtil.getRandomString(3));
-        }
-
+        name = "abc";
+        names.add(name);
+        name = "DEF";
+        names.add(name);
+        name = "abcDEF123456";
+        names.add(name);
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -156,33 +156,15 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                StringBuilder result = new StringBuilder();
-//                s = s.toString().toLowerCase();
-//                if (!TextUtils.isEmpty(s)) {
-//                    for (int i = 0; i < names.size(); i++) {
-//                        String name = names.get(i).toString();
-//                        boolean a = StringUtil.getFirstSpell(name).contains(s);
-//                        boolean b = StringUtil.getFullSpell(name).contains(s);
-//                        boolean c = name.contains(s);
-//                        if (a | b | c) {
-//                            Log.d(TAG, "这个名字： " + name + "包含" + s);
-//                            result.append(name).append(" , ");
-//                        }
-//                    }
-//                    if (result.toString().equals("")) {
-//                        ToastUtil.showToast(getApp(), "根据 ：" + s + "查询不到结果");
-//                    } else {
-//                        ToastUtil.showToast(getApp(), "根据 ：" + s + "查询到如下结果：" + result);
-//                    }
-//
-//                }
-                users = userDao.queryBuilder().build().list();
+                long time_s = System.currentTimeMillis();
+//                users = userDao.queryBuilder().build().list();
+
                 StringBuilder result = new StringBuilder();
                 s = s.toString().toLowerCase();
-                Log.d(TAG,"用户列表数量为： " + users.size());
+                Log.d(TAG,"用户列表数量为： " + names.size());
                 if (!TextUtils.isEmpty(s)) {
-                    for (int i = 0; i < users.size(); i++) {
-                        String name = users.get(i).getUsername().toString().toLowerCase();
+                    for (int i = 0; i < names.size(); i++) {
+                        String name = names.get(i).toString().toLowerCase();
                         boolean a = StringUtil.getFirstSpell(name).toLowerCase().contains(s);
                         boolean b = StringUtil.getFullSpell(name).toLowerCase().contains(s);
                         boolean c = name.toLowerCase() .contains(s);
@@ -191,10 +173,11 @@ public class HomeActivity extends BaseActivity {
                             result.append(name).append(" , ");
                         }
                     }
+                    long time_e = System.currentTimeMillis();
                     if (result.toString().equals("")) {
-                        ToastUtil.showToast(getApp(), "根据 ：" + s + "查询不到结果");
+                        ToastUtil.showToast(getApp(), "耗时（毫秒）：" + (time_e-time_s)  + "  "+"根据 ：" + s + "查询不到结果");
                     } else {
-                        ToastUtil.showToast(getApp(), "根据 ：" + s + "查询到如下结果：" + result);
+                        ToastUtil.showToast(getApp(), "耗时（毫秒）：" + (time_e-time_s)  + "  "+"根据 ：" + s + "查询到如下结果：" + result);
                     }
 
                 }
@@ -272,17 +255,20 @@ public class HomeActivity extends BaseActivity {
 
 
 
-
-                for (int i = 0; i < 1000; i++) {
-                    User user = new User();
-                    user.setPassword("123");
-                    user.setUsername(StringUtil.getRandomString(5));
-                    userDao.insert(user);
-                }
                 users = userDao.queryBuilder().build().list();
-                for (int i = 0; i < users.size(); i++) {
-                    Log.i(TAG, i + "用户" + users.get(i).getUsername() + "\n");
+                //如果有数据就不再添加了 影响调试效率
+                boolean a = users.size()>999;
+                if (!a) {
+                    for (int i = 0; i < 1000; i++) {
+                        User user = new User();
+                        user.setPassword("123");
+                        user.setUsername(StringUtil.getRandomString(5));
+                        userDao.insert(user);
+                    }
                 }
+//                for (int i = 0; i < users.size(); i++) {
+//                    Log.i(TAG, i + "用户" + users.get(i).getUsername() + "\n");
+//                }
                 intent.setClass(getContext(), DateBaseActivity.class);
                 startActivity(intent);
 

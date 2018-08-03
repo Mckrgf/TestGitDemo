@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.god.yb.testgitdemo.R;
+import com.god.yb.testgitdemo.Utils.ToastUtil;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,12 +42,16 @@ public class NetRertofitActivity extends BaseActivity {
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Object data = response.body();
                 Log.d(TAG,data.toString());
+                ToastUtil.showToast(getApp(),"获取数据失败：" + data.toString());
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 t.printStackTrace();
+                ToastUtil.showToast(getApp(),"获取数据失败：" + t);
             }
+
+
         });
     }
 
