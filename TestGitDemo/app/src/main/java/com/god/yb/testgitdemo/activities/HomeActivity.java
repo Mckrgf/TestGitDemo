@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -19,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -29,7 +31,6 @@ import com.god.yb.testgitdemo.DBBean.UserDao;
 import com.god.yb.testgitdemo.Event.FallEvent;
 import com.god.yb.testgitdemo.FallTest.FallDetectionService;
 import com.god.yb.testgitdemo.R;
-import com.god.yb.testgitdemo.Utils.MyDateUtils;
 import com.god.yb.testgitdemo.Utils.ServiceUtils;
 import com.god.yb.testgitdemo.Utils.StringUtil;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
@@ -89,6 +90,10 @@ public class HomeActivity extends BaseActivity {
     Button bt16;
     @BindView(R.id.et_search_name)
     EditText etSearchName;
+    @BindView(R.id.bt17)
+    Button bt17;
+    @BindView(R.id.iv_pic)
+    ImageView ivPic;
     private Intent intent = new Intent();
     //跳转下一个页面,不用每次都new了
 
@@ -162,13 +167,13 @@ public class HomeActivity extends BaseActivity {
 
                 StringBuilder result = new StringBuilder();
                 s = s.toString().toLowerCase();
-                Log.d(TAG,"用户列表数量为： " + names.size());
+                Log.d(TAG, "用户列表数量为： " + names.size());
                 if (!TextUtils.isEmpty(s)) {
                     for (int i = 0; i < names.size(); i++) {
                         String name = names.get(i).toString().toLowerCase();
                         boolean a = StringUtil.getFirstSpell(name).toLowerCase().contains(s);
                         boolean b = StringUtil.getFullSpell(name).toLowerCase().contains(s);
-                        boolean c = name.toLowerCase() .contains(s);
+                        boolean c = name.toLowerCase().contains(s);
                         if (a | b | c) {
                             Log.d(TAG, "这个名字： " + name + "包含" + s);
                             result.append(name).append(" , ");
@@ -176,9 +181,9 @@ public class HomeActivity extends BaseActivity {
                     }
                     long time_e = System.currentTimeMillis();
                     if (result.toString().equals("")) {
-                        ToastUtil.showToast(getApp(), "耗时（毫秒）：" + (time_e-time_s)  + "  "+"根据 ：" + s + "查询不到结果");
+                        ToastUtil.showToast(getApp(), "耗时（毫秒）：" + (time_e - time_s) + "  " + "根据 ：" + s + "查询不到结果");
                     } else {
-                        ToastUtil.showToast(getApp(), "耗时（毫秒）：" + (time_e-time_s)  + "  "+"根据 ：" + s + "查询到如下结果：" + result);
+                        ToastUtil.showToast(getApp(), "耗时（毫秒）：" + (time_e - time_s) + "  " + "根据 ：" + s + "查询到如下结果：" + result);
                     }
 
                 }
@@ -239,7 +244,7 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4, R.id.bt16, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13, R.id.bt14, R.id.bt15})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt17, R.id.bt4, R.id.bt16, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13, R.id.bt14, R.id.bt15})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -255,10 +260,9 @@ public class HomeActivity extends BaseActivity {
             case R.id.bt3:
 
 
-
                 users = userDao.queryBuilder().build().list();
                 //如果有数据就不再添加了 影响调试效率
-                boolean a = users.size()>999;
+                boolean a = users.size() > 999;
                 if (!a) {
                     for (int i = 0; i < 1000; i++) {
                         User user = new User();
@@ -339,6 +343,9 @@ public class HomeActivity extends BaseActivity {
             case R.id.bt16:
                 openActivity(WebviewActivity.class);
                 break;
+            case R.id.bt17:
+                openCamera(12345, +System.currentTimeMillis() + ".jpg");
+                break;
 
         }
     }
@@ -409,6 +416,16 @@ public class HomeActivity extends BaseActivity {
                     Log.i(TAG, "可以悬浮");
                 }
             }
+        } else if (requestCode == 12345 && resultCode == -1) {
+            if (null!=uriForFile) {
+                ToastUtil.showToast(this, uriForFile.toString());
+                ivPic.setImageURI(uriForFile);
+            }else if (null!=data){
+                ToastUtil.showToast(this,data.toString());
+                Bitmap bitmap = data.getParcelableExtra("data");
+                ivPic.setImageBitmap(bitmap);
+            }
+
         } else {
             //处理扫描结果（在界面上显示）
             if (null != data) {

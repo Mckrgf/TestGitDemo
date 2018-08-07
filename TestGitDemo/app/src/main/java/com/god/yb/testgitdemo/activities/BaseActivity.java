@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.MifareClassic;
@@ -14,6 +15,9 @@ import android.nfc.tech.NfcA;
 import android.nfc.tech.NfcB;
 import android.nfc.tech.NfcF;
 import android.nfc.tech.NfcV;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +25,8 @@ import android.util.Log;
 import com.god.yb.testgitdemo.App;
 import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
+
+import java.io.File;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -32,6 +38,10 @@ public class BaseActivity extends AppCompatActivity {
     private IntentFilter[] intentFiltersArray;
     String[][] techListsArray;
     protected String TAG;
+    public String pic_path = Environment.getExternalStorageDirectory().getAbsolutePath()
+            + "/pic/";
+    public Uri uriForFile;
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -123,5 +133,21 @@ public class BaseActivity extends AppCompatActivity {
     public void openActivity(Class<?> cls) {
         Intent i = new Intent(this, cls);
         startActivity(i);
+    }
+
+    public void openCamera(int requestCode,String file_name) {
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File file = new File(pic_path+file_name);
+        file.getParentFile().mkdirs();
+
+        //改变Uri  com.xykj.customview.fileprovider注意和xml中的一致
+        uriForFile = FileProvider.getUriForFile(this, "com.god.yb.testgitdemo.fileprovider", file);
+        //添加权限
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile);
+
+        startActivityForResult(intent, requestCode);
     }
 }

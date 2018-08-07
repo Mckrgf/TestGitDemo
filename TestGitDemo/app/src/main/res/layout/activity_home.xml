@@ -87,6 +87,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt6" />
+
         <Button
             android:id="@+id/bt8"
             android:layout_width="368dp"
@@ -97,6 +98,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt7" />
+
         <Button
             android:id="@+id/bt9"
             android:layout_width="368dp"
@@ -107,6 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt8" />
+
         <Button
             android:id="@+id/bt10"
             android:layout_width="368dp"
@@ -117,6 +120,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt9" />
+
         <Button
             android:id="@+id/bt11"
             android:layout_width="368dp"
@@ -127,6 +131,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt10" />
+
         <Button
             android:id="@+id/bt12"
             android:layout_width="368dp"
@@ -137,6 +142,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt11" />
+
         <Button
             android:id="@+id/bt13"
             android:layout_width="368dp"
@@ -148,7 +154,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt12" />
 
-         <Button
+        <Button
             android:id="@+id/bt14"
             android:layout_width="368dp"
             android:layout_height="51dp"
@@ -159,7 +165,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt13" />
 
-         <Button
+        <Button
             android:id="@+id/bt15"
             android:layout_width="368dp"
             android:layout_height="51dp"
@@ -170,7 +176,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bt14" />
 
-         <Button
+        <Button
             android:id="@+id/bt16"
             android:layout_width="368dp"
             android:layout_height="51dp"
@@ -182,19 +188,39 @@
             app:layout_constraintTop_toBottomOf="@+id/bt15" />
 
         <EditText
-            app:layout_constraintTop_toBottomOf="@+id/bt16"
             android:id="@+id/et_search_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="请输入首字母/首字母检索"
             android:inputType=""
-            android:hint="请输入首字母/首字母检索"/>
+            app:layout_constraintTop_toBottomOf="@+id/bt16" />
+
+
+        <Button
+            android:id="@+id/bt17"
+            android:layout_width="368dp"
+            android:layout_height="51dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="拍照"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_search_name" />
+
+        <ImageView
+            android:id="@+id/iv_pic"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt17" />
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent">
 
 
@@ -226,7 +252,6 @@
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
-
 
 
 </ScrollView>
