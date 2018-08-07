@@ -244,7 +244,7 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt17, R.id.bt4, R.id.bt16, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13, R.id.bt14, R.id.bt15})
+    @OnClick({R.id.bt1, R.id.bt2, R.id.bt3, R.id.iv_pic, R.id.bt17, R.id.bt4, R.id.bt16, R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9, R.id.bt10, R.id.bt11, R.id.bt12, R.id.bt13, R.id.bt14, R.id.bt15})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt1:
@@ -346,6 +346,9 @@ public class HomeActivity extends BaseActivity {
             case R.id.bt17:
                 openCamera(12345, +System.currentTimeMillis() + ".jpg");
                 break;
+            case R.id.iv_pic:
+                ivPic.setVisibility(View.GONE);
+                break;
 
         }
     }
@@ -417,11 +420,12 @@ public class HomeActivity extends BaseActivity {
                 }
             }
         } else if (requestCode == 12345 && resultCode == -1) {
-            if (null!=uriForFile) {
+            ivPic.setVisibility(View.VISIBLE);
+            if (null != uriForFile) {
                 ToastUtil.showToast(this, uriForFile.toString());
                 ivPic.setImageURI(uriForFile);
-            }else if (null!=data){
-                ToastUtil.showToast(this,data.toString());
+            } else if (null != data) {
+                ToastUtil.showToast(this, data.toString());
                 Bitmap bitmap = data.getParcelableExtra("data");
                 ivPic.setImageBitmap(bitmap);
             }
