@@ -41,6 +41,7 @@ public class BaseActivity extends AppCompatActivity {
     public String pic_path = Environment.getExternalStorageDirectory().getAbsolutePath()
             + "/pic/";
     public Uri uriForFile;
+    protected File file_pic;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -138,11 +139,11 @@ public class BaseActivity extends AppCompatActivity {
     public void openCamera(int requestCode,String file_name) {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = new File(pic_path+file_name);
-        file.getParentFile().mkdirs();
+        file_pic = new File(pic_path+file_name);
+        file_pic.getParentFile().mkdirs();
 
-        //改变Uri  com.xykj.customview.fileprovider注意和xml中的一致
-        uriForFile = FileProvider.getUriForFile(this, "com.god.yb.testgitdemo.fileprovider", file);
+        //改变Uri
+        uriForFile = FileProvider.getUriForFile(this, "com.god.yb.testgitdemo.fileprovider", file_pic);
         //添加权限
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 

@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -33,6 +34,7 @@ import com.god.yb.testgitdemo.FallTest.FallDetectionService;
 import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Utils.ServiceUtils;
 import com.god.yb.testgitdemo.Utils.StringUtil;
+import com.god.yb.testgitdemo.Utils.ToBase64;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -42,6 +44,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -348,6 +351,9 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.iv_pic:
                 ivPic.setVisibility(View.GONE);
+                // TODO: 2018/8/9 在这里把图片文件转换为bitmap，再转换为base64，即可上传
+                String base64 = ToBase64.fileToBase64(file_pic);
+                Log.d(TAG,base64);
                 break;
 
         }
