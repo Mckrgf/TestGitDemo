@@ -42,6 +42,7 @@ public class BaseActivity extends AppCompatActivity {
             + "/pic/";
     public Uri uriForFile;
     protected File file_pic;
+    public String path;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -140,6 +141,7 @@ public class BaseActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         file_pic = new File(pic_path+file_name);
+        path = pic_path+file_name;
         file_pic.getParentFile().mkdirs();
 
         //改变Uri

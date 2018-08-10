@@ -25,17 +25,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import com.god.yb.testgitdemo.App;
 import com.god.yb.testgitdemo.DBBean.DaoSession;
 import com.god.yb.testgitdemo.DBBean.User;
 import com.god.yb.testgitdemo.DBBean.UserDao;
 import com.god.yb.testgitdemo.Event.FallEvent;
 import com.god.yb.testgitdemo.FallTest.FallDetectionService;
+import com.god.yb.testgitdemo.OkHttp.CommonCallBack;
 import com.god.yb.testgitdemo.R;
+import com.god.yb.testgitdemo.Utils.FileUtils;
+import com.god.yb.testgitdemo.Utils.ImageCompressUtil;
 import com.god.yb.testgitdemo.Utils.ServiceUtils;
 import com.god.yb.testgitdemo.Utils.StringUtil;
 import com.god.yb.testgitdemo.Utils.ToBase64;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.Callback;
+import com.lzy.okgo.model.Progress;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
@@ -45,7 +55,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,6 +67,8 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+
+import static org.apache.commons.codec.binary.Base64.encodeBase64;
 
 public class HomeActivity extends BaseActivity {
 
@@ -347,16 +362,99 @@ public class HomeActivity extends BaseActivity {
                 openActivity(WebviewActivity.class);
                 break;
             case R.id.bt17:
-                openCamera(12345, +System.currentTimeMillis() + ".jpg");
+                openCamera(12345, +System.currentTimeMillis() + ".png");
                 break;
             case R.id.iv_pic:
                 ivPic.setVisibility(View.GONE);
                 // TODO: 2018/8/9 在这里把图片文件转换为bitmap，再转换为base64，即可上传
-                String base64 = ToBase64.fileToBase64(file_pic);
-                Log.d(TAG,base64);
+//                String base64 = ToBase64.fileToBase64(file_pic);
+//                Log.d(TAG, base64);
+
+
+                String imgBase64 = "";
+                try {
+                    byte[] content = new byte[(int) file_pic.length()];
+                    FileInputStream finputstream = new FileInputStream(file_pic);
+                    finputstream.read(content);
+                    finputstream.close();
+                    imgBase64 = new String(encodeBase64(content));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+
+                JSONObject configObj = new JSONObject();
+                configObj.put("side", "face");
+                String config_str = configObj.toString();
+                JSONObject obj = new JSONObject();
+                obj.put("configure", config_str);
+
+
+                OkGo.<HashMap>post("https://dm-51.data.aliyun.com/rest/160601/ocr/ocr_idcard.json")
+                        .tag(this)
+                        .headers("Authorization", "APPCODE 8f7f28ec001b4fa987a9c252218e852b")
+                        .params("image", imgBase64)
+                        .params("configure",config_str)
+                        .params("AppKey","25014632")
+                        .execute(new Callback<HashMap>() {
+                            @Override
+                            public void onStart(Request<HashMap, ? extends Request> request) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Response<HashMap> response) {
+                                ToastUtil.showToast(getApp(), response.toString());
+                                Log.d(TAG, response.toString());
+                            }
+
+                            @Override
+                            public void onCacheSuccess(Response<HashMap> response) {
+
+                            }
+
+                            @Override
+                            public void onError(Response<HashMap> response) {
+                                ToastUtil.showToast(getApp(), response.body().toString());
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+
+                            @Override
+                            public void uploadProgress(Progress progress) {
+
+                            }
+
+                            @Override
+                            public void downloadProgress(Progress progress) {
+
+                            }
+
+                            @Override
+                            public HashMap convertResponse(okhttp3.Response response) throws Throwable {
+                                return null;
+                            }
+                        });
                 break;
 
         }
+    }
+
+    /*
+ * 获取参数的json对象
+ */
+    public static JSONObject getParam(int type, String dataValue) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("dataType", type);
+            obj.put("dataValue", dataValue);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     private long lastMillion;
@@ -428,8 +526,8 @@ public class HomeActivity extends BaseActivity {
         } else if (requestCode == 12345 && resultCode == -1) {
             ivPic.setVisibility(View.VISIBLE);
             if (null != uriForFile) {
-                ToastUtil.showToast(this, uriForFile.toString());
                 ivPic.setImageURI(uriForFile);
+                ImageCompressUtil.compressBitmap(path, 1024, 768, 80, path);
             } else if (null != data) {
                 ToastUtil.showToast(this, data.toString());
                 Bitmap bitmap = data.getParcelableExtra("data");
