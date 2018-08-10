@@ -393,7 +393,7 @@ public class HomeActivity extends BaseActivity {
                 OkGo.<HashMap>post("https://dm-51.data.aliyun.com/rest/160601/ocr/ocr_idcard.json")
                         .tag(this)
                         .headers("Authorization", "APPCODE 8f7f28ec001b4fa987a9c252218e852b")
-                        .params("image", imgBase64)
+                        .params("image", file_pic)
                         .params("configure",config_str)
                         .params("AppKey","25014632")
                         .execute(new Callback<HashMap>() {
@@ -415,6 +415,7 @@ public class HomeActivity extends BaseActivity {
 
                             @Override
                             public void onError(Response<HashMap> response) {
+                                Log.e(TAG,"kedjfe");
                                 ToastUtil.showToast(getApp(), response.body().toString());
                             }
 
