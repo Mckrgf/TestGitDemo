@@ -83,6 +83,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.19.0'
     implementation files('src/main/jniLibs/pinyin4j-2.5.0.jar')
     compile 'com.alibaba:fastjson:1.2.49'
-    compile 'com.alibaba:fastjson:1.1.70.android'
+    compile 'com.alibaba:fastjson:1.2.49.android'
     implementation files('src/main/jniLibs/org.apache.commons.codec_1.6.0.v201305230611.jar')
 }

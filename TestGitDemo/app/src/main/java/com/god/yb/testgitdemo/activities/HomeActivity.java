@@ -525,6 +525,7 @@ public class HomeActivity extends BaseActivity {
                 }
             }
         } else if (requestCode == 12345 && resultCode == -1) {
+            Log.d(TAG,"resultCode: " + resultCode);
             ivPic.setVisibility(View.VISIBLE);
             if (null != uriForFile) {
                 ivPic.setImageURI(uriForFile);
