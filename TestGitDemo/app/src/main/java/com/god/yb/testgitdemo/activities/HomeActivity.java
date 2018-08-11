@@ -5,9 +5,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -225,6 +227,9 @@ public class HomeActivity extends BaseActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.VIBRATE}, 1);
         }
 
+
+
+//       requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
         ObjectAnimator.ofFloat(llBottom, "translationY", 0, height).setDuration(1200).start();
         //检测跌落服务是否开启
         serviceRunning = ServiceUtils.isServiceRunning(this, "com.god.yb.testgitdemo.FallTest.FallDetectionService");
@@ -234,6 +239,17 @@ public class HomeActivity extends BaseActivity {
         } else {
             bt10.setText("打开跌落检测服务,当前状态:关闭中");
             Log.i(TAG, "跌落服务关闭了");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "您已经允许读写内存", Toast.LENGTH_SHORT).show();
+        } else {
+            // 没有获取 到权限，从新请求，或者关闭app
+            Toast.makeText(this, "需要存储权限", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -362,7 +378,22 @@ public class HomeActivity extends BaseActivity {
                 openActivity(WebviewActivity.class);
                 break;
             case R.id.bt17:
-                openCamera(12345, +System.currentTimeMillis() + ".png");
+
+                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+                if (Build.VERSION.SDK_INT >= 23) {
+                    int check = ContextCompat.checkSelfPermission(this, permissions[0]);
+                    // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+                    if (check == PackageManager.PERMISSION_GRANTED) {
+                        //调用相机
+                        openCamera(12345, +System.currentTimeMillis() + ".jpg");
+                    } else {
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
+                    }
+                } else {
+                    openCamera(12345, +System.currentTimeMillis() + ".jpg");               }
+
+
                 break;
             case R.id.iv_pic:
                 ivPic.setVisibility(View.GONE);
@@ -394,8 +425,8 @@ public class HomeActivity extends BaseActivity {
                         .tag(this)
                         .headers("Authorization", "APPCODE 8f7f28ec001b4fa987a9c252218e852b")
                         .params("image", file_pic)
-                        .params("configure",config_str)
-                        .params("AppKey","25014632")
+                        .params("configure", config_str)
+                        .params("AppKey", "25014632")
                         .execute(new Callback<HashMap>() {
                             @Override
                             public void onStart(Request<HashMap, ? extends Request> request) {
@@ -415,7 +446,7 @@ public class HomeActivity extends BaseActivity {
 
                             @Override
                             public void onError(Response<HashMap> response) {
-                                Log.e(TAG,"kedjfe");
+                                Log.e(TAG, "kedjfe");
                                 ToastUtil.showToast(getApp(), response.body().toString());
                             }
 
@@ -445,8 +476,8 @@ public class HomeActivity extends BaseActivity {
     }
 
     /*
- * 获取参数的json对象
- */
+     * 获取参数的json对象
+     */
     public static JSONObject getParam(int type, String dataValue) {
         JSONObject obj = new JSONObject();
         try {
@@ -525,11 +556,12 @@ public class HomeActivity extends BaseActivity {
                 }
             }
         } else if (requestCode == 12345 && resultCode == -1) {
-            Log.d(TAG,"resultCode: " + resultCode);
+            Log.d(TAG, "resultCode: " + resultCode);
             ivPic.setVisibility(View.VISIBLE);
             if (null != uriForFile) {
-                ivPic.setImageURI(uriForFile);
-                ImageCompressUtil.compressBitmap(path, 1024, 768, 80, path);
+//                ImageCompressUtil.compressBitmap(path, 1024, 768, 80, path);
+                ivPic.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+
             } else if (null != data) {
                 ToastUtil.showToast(this, data.toString());
                 Bitmap bitmap = data.getParcelableExtra("data");

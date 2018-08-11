@@ -43,6 +43,7 @@ public class BaseActivity extends AppCompatActivity {
     public Uri uriForFile;
     protected File file_pic;
     public String path;
+    public File file;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -139,18 +140,32 @@ public class BaseActivity extends AppCompatActivity {
 
     public void openCamera(int requestCode,String file_name) {
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file_pic = new File(pic_path+file_name);
-        path = pic_path+file_name;
-        file_pic.getParentFile().mkdirs();
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        file_pic = new File(pic_path+file_name);
+//        path = pic_path+file_name;
+//        file_pic.getParentFile().mkdirs();
+//
+//        //改变Uri
+//        uriForFile = FileProvider.getUriForFile(this, "com.god.yb.testgitdemo.fileprovider", file_pic);
+//        //添加权限
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile);
+//
+//        startActivityForResult(intent, requestCode);
 
-        //改变Uri
-        uriForFile = FileProvider.getUriForFile(this, "com.god.yb.testgitdemo.fileprovider", file_pic);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + "/pic/" + file_name);
+        file.getParentFile().mkdirs();
+        path = file.getPath();
+        //改变Uri  com.xykj.customview.fileprovider注意和xml中的一致
+        uriForFile = FileProvider.getUriForFile(this, "com.god.yb.testgitdemo.fileprovider", file);
         //添加权限
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile);
-
         startActivityForResult(intent, requestCode);
     }
 }
