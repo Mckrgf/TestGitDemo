@@ -44,13 +44,16 @@ import com.god.yb.testgitdemo.Utils.StringUtil;
 import com.god.yb.testgitdemo.Utils.ToBase64;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.callback.Callback;
+import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -62,6 +65,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +73,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import okhttp3.Call;
 
 import static org.apache.commons.codec.binary.Base64.encodeBase64;
 
@@ -226,7 +231,6 @@ public class HomeActivity extends BaseActivity {
             //如果没有权限，就申请，然后走回调方法，在回调成功的时候调用拍照方法
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.VIBRATE}, 1);
         }
-
 
 
 //       requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
@@ -391,21 +395,18 @@ public class HomeActivity extends BaseActivity {
                         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
                     }
                 } else {
-                    openCamera(12345, +System.currentTimeMillis() + ".jpg");               }
+                    openCamera(12345, +System.currentTimeMillis() + ".jpg");
+                }
 
 
                 break;
             case R.id.iv_pic:
-                ivPic.setVisibility(View.GONE);
-                // TODO: 2018/8/9 在这里把图片文件转换为bitmap，再转换为base64，即可上传
-//                String base64 = ToBase64.fileToBase64(file_pic);
-//                Log.d(TAG, base64);
-
-
+//                ivPic.setVisibility(View.GONE);
+//
                 String imgBase64 = "";
                 try {
-                    byte[] content = new byte[(int) file_pic.length()];
-                    FileInputStream finputstream = new FileInputStream(file_pic);
+                    byte[] content = new byte[(int) file.length()];
+                    FileInputStream finputstream = new FileInputStream(file);
                     finputstream.read(content);
                     finputstream.close();
                     imgBase64 = new String(encodeBase64(content));
@@ -420,56 +421,23 @@ public class HomeActivity extends BaseActivity {
                 JSONObject obj = new JSONObject();
                 obj.put("configure", config_str);
 
-
-                OkGo.<HashMap>post("https://dm-51.data.aliyun.com/rest/160601/ocr/ocr_idcard.json")
+                HashMap map1 = new HashMap();
+                map1.put("image",imgBase64);
+                map1.put("configure",config_str);
+                org.json.JSONObject jsonObject = new org.json.JSONObject(map1);
+                OkGo.<String>post("https://dm-51.data.aliyun.com/rest/160601/ocr/ocr_idcard.json")
                         .tag(this)
                         .headers("Authorization", "APPCODE 8f7f28ec001b4fa987a9c252218e852b")
-                        .params("image", file_pic)
+                        .params("image",imgBase64)
                         .params("configure", config_str)
-                        .params("AppKey", "25014632")
-                        .execute(new Callback<HashMap>() {
-                            @Override
-                            public void onStart(Request<HashMap, ? extends Request> request) {
-
-                            }
-
-                            @Override
-                            public void onSuccess(Response<HashMap> response) {
-                                ToastUtil.showToast(getApp(), response.toString());
-                                Log.d(TAG, response.toString());
-                            }
-
-                            @Override
-                            public void onCacheSuccess(Response<HashMap> response) {
-
-                            }
-
-                            @Override
-                            public void onError(Response<HashMap> response) {
-                                Log.e(TAG, "kedjfe");
-                                ToastUtil.showToast(getApp(), response.body().toString());
-                            }
-
-                            @Override
-                            public void onFinish() {
-
-                            }
-
-                            @Override
-                            public void uploadProgress(Progress progress) {
-
-                            }
-
-                            @Override
-                            public void downloadProgress(Progress progress) {
-
-                            }
-
-                            @Override
-                            public HashMap convertResponse(okhttp3.Response response) throws Throwable {
-                                return null;
-                            }
-                        });
+                        .upJson(jsonObject)
+                        .execute(new StringCallback() {
+                                     @Override
+                                     public void onSuccess(Response<String> response) {
+                                         Log.d(TAG,"===================================="+response.body().toString());
+                                         ToastUtil.showToast(getApp(),response.body());
+                                     }
+                                 });
                 break;
 
         }
@@ -559,7 +527,7 @@ public class HomeActivity extends BaseActivity {
             Log.d(TAG, "resultCode: " + resultCode);
             ivPic.setVisibility(View.VISIBLE);
             if (null != uriForFile) {
-//                ImageCompressUtil.compressBitmap(path, 1024, 768, 80, path);
+                ImageCompressUtil.compressBitmap(file.getAbsolutePath(), 1024, 768, 80, file.getAbsolutePath());
                 ivPic.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
 
             } else if (null != data) {
@@ -585,4 +553,6 @@ public class HomeActivity extends BaseActivity {
         }
 
     }
+
+    private  String sss = "";
 }
