@@ -1,9 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     tools:context="com.god.yb.testgitdemo.activities.NetRertofitActivity">
 
-</android.support.constraint.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/bt_id_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/testIdCard"/>
+
+            <TextView
+                android:maxLines="5"
+                android:id="@+id/tv_result_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/testIdCardResult"/>
+
+            <Button
+                android:id="@+id/bt_get_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/testGet"/>
+
+            <TextView
+                android:maxLines="5"
+                android:id="@+id/tv_result_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/testIdCardResult"/>
+
+            <Button
+                android:id="@+id/bt_post_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/testPost"/>
+
+            <TextView
+                android:maxLines="5"
+                android:id="@+id/tv_result_c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/testIdCardResult"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

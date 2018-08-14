@@ -129,6 +129,9 @@ public class HomeActivity extends BaseActivity {
     private List<User> users;
     private DaoSession daoSession;
     private UserDao userDao;
+    private HashMap map1;
+    private String imgBase64;
+    private String config_str;
 
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -373,7 +376,7 @@ public class HomeActivity extends BaseActivity {
                 openActivity(MyViewActivity.class);
                 break;
             case R.id.bt14:
-                openActivity(NetRertofitActivity.class);
+                openActivity(NetRertofitActivity.class,map1);
                 break;
             case R.id.bt15:
                 openActivity(IatDemo.class);
@@ -403,27 +406,7 @@ public class HomeActivity extends BaseActivity {
             case R.id.iv_pic:
 //                ivPic.setVisibility(View.GONE);
 //
-                String imgBase64 = "";
-                try {
-                    byte[] content = new byte[(int) file.length()];
-                    FileInputStream finputstream = new FileInputStream(file);
-                    finputstream.read(content);
-                    finputstream.close();
-                    imgBase64 = new String(encodeBase64(content));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
-                }
 
-                JSONObject configObj = new JSONObject();
-                configObj.put("side", "face");
-                String config_str = configObj.toString();
-                JSONObject obj = new JSONObject();
-                obj.put("configure", config_str);
-
-                HashMap map1 = new HashMap();
-                map1.put("image",imgBase64);
-                map1.put("configure",config_str);
                 org.json.JSONObject jsonObject = new org.json.JSONObject(map1);
                 OkGo.<String>post("https://dm-51.data.aliyun.com/rest/160601/ocr/ocr_idcard.json")
                         .tag(this)
@@ -530,6 +513,28 @@ public class HomeActivity extends BaseActivity {
                 ImageCompressUtil.compressBitmap(file.getAbsolutePath(), 1024, 768, 80, file.getAbsolutePath());
                 ivPic.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
 
+
+                imgBase64 = "";
+                try {
+                    byte[] content = new byte[(int) file.length()];
+                    FileInputStream finputstream = new FileInputStream(file);
+                    finputstream.read(content);
+                    finputstream.close();
+                    imgBase64 = new String(encodeBase64(content));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+
+                JSONObject configObj = new JSONObject();
+                configObj.put("side", "face");
+                config_str = configObj.toString();
+                JSONObject obj = new JSONObject();
+                obj.put("configure", config_str);
+
+                map1 = new HashMap();
+                map1.put("image", imgBase64);
+                map1.put("configure", config_str);
             } else if (null != data) {
                 ToastUtil.showToast(this, data.toString());
                 Bitmap bitmap = data.getParcelableExtra("data");

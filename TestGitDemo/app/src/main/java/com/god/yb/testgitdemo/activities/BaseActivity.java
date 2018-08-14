@@ -2,6 +2,7 @@ package com.god.yb.testgitdemo.activities;
 
 import android.app.Application;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -27,6 +28,8 @@ import com.god.yb.testgitdemo.R;
 import com.god.yb.testgitdemo.Utils.ToastUtil;
 
 import java.io.File;
+import java.io.Serializable;
+import java.util.HashMap;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -137,6 +140,12 @@ public class BaseActivity extends AppCompatActivity {
         Intent i = new Intent(this, cls);
         startActivity(i);
     }
+    public void openActivity(Class<?> cls, HashMap hashMap) {
+        Intent i = new Intent(this, cls);
+        i.putExtra("data",(Serializable) hashMap);
+        i.putExtra("fff","ddd");
+        startActivity(i);
+    }
 
     public void openCamera(int requestCode,String file_name) {
 
@@ -167,5 +176,21 @@ public class BaseActivity extends AppCompatActivity {
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile);
         startActivityForResult(intent, requestCode);
+    }
+    private ProgressDialog dialog;
+    public void showProgress() {
+        if (null == dialog) {
+            dialog = new ProgressDialog(this);
+            dialog.setMessage("加载中...");
+        }
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(true);
+        dialog.show();
+    }
+
+    public void closeProgress() {
+        if (null!=dialog&&dialog.isShowing()) {
+            dialog.cancel();
+        }
     }
 }
