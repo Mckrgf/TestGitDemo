@@ -69,14 +69,10 @@ public class NetRertofitActivity extends BaseActivity {
     }
 
     private void test_post() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(base_url_post)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        Method_post_service methodGetService = retrofit.create(Method_post_service.class);
-        Call<Object> repos = methodGetService.trans_result("oh my god");
-        showProgress();
-        repos.enqueue(new Callback<Object>() {
+        getRetrofit(base_url_post,true)
+                .create(Method_post_service.class)
+                .trans_result("fuck you")
+                .enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -94,13 +90,7 @@ public class NetRertofitActivity extends BaseActivity {
     }
 
     private void test_id_card() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(base_url_json)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        Method_id_res methodGetService = retrofit.create(Method_id_res.class);
 
-        //把参数转换为json_object
         JSONObject configObj = new JSONObject();
         configObj.put("side", "face");
         String config_str = configObj.toString();
@@ -110,9 +100,10 @@ public class NetRertofitActivity extends BaseActivity {
         org.json.JSONObject jsonObject = new org.json.JSONObject(map);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject));
 
-        Call<Object> repos = methodGetService.trans_result1(body);
-        showProgress();
-        repos.enqueue(new Callback<Object>() {
+        getRetrofit(base_url_json,true)
+                .create(Method_id_res.class)
+                .trans_result1(body)
+                .enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -130,14 +121,11 @@ public class NetRertofitActivity extends BaseActivity {
     }
 
     private void test_get() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(base_url_get)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        Method_get_service methodGetService = retrofit.create(Method_get_service.class);
-        Call<Object> repos = methodGetService.listrepos("octocat");
-        showProgress();
-        repos.enqueue(new Callback<Object>() {
+
+        getRetrofit(base_url_get,true)
+                .create(Method_get_service.class)
+                .listrepos("octocat")
+                .enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

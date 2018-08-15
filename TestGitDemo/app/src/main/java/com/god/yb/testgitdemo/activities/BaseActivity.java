@@ -31,6 +31,10 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class BaseActivity extends AppCompatActivity {
 
     private App app;
@@ -192,5 +196,16 @@ public class BaseActivity extends AppCompatActivity {
         if (null!=dialog&&dialog.isShowing()) {
             dialog.cancel();
         }
+    }
+
+    protected Retrofit getRetrofit(String base_url,boolean isShowDialog) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(base_url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        if (isShowDialog) {
+            showProgress();
+        }
+        return retrofit;
     }
 }
