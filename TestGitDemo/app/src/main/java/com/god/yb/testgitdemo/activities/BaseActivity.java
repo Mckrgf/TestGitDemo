@@ -195,6 +195,7 @@ public class BaseActivity extends AppCompatActivity {
     public void closeProgress() {
         if (null!=dialog&&dialog.isShowing()) {
             dialog.cancel();
+
         }
     }
 
