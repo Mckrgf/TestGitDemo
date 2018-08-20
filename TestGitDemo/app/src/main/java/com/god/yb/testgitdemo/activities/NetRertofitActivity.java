@@ -1,8 +1,10 @@
 package com.god.yb.testgitdemo.activities;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -13,12 +15,18 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -41,6 +49,8 @@ public class NetRertofitActivity extends BaseActivity {
     Button btPostTest;
     @BindView(R.id.tv_result_c)
     TextView tvResultC;
+    @BindView(R.id.et_trans)
+    EditText etTrans;
 
     private String base_url_get = "https://api.github.com/";
     private String base_url_post = "http://fanyi.youdao.com/";
@@ -69,24 +79,45 @@ public class NetRertofitActivity extends BaseActivity {
     }
 
     private void test_post() {
-        getRetrofit(base_url_post,true)
-                .create(Method_post_service.class)
-                .trans_result("fuck you")
-                .enqueue(new Callback<Object>() {
 
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                tvResultC.setText(response.body().toString());
-                closeProgress();
-            }
+        String trans_text = String.valueOf(etTrans.getText());
+        if (TextUtils.isEmpty(trans_text)) {
+            trans_text = "no word to translate";
+        }
 
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                tvResultC.setText("查询失败：" + String.valueOf(t));
-                closeProgress();
-            }
-
-        });
+        //1,获得retrofit
+        Retrofit retrofit = getRetrofit(base_url_post, false);
+//        //2，获得服务（通过服务接口）
+//        Method_post_service post_service = retrofit.create(Method_post_service.class);
+//        //3，获得一个call（或者是其他的比如Observable）
+//        Call call = post_service.trans_result(trans_text);
+//        //4，执行这个call方法，获得结果
+//        call.enqueue(new Callback() {
+//            @Override
+//            public void onResponse(Call call, Response response) {
+//                tvResultC.setText(response.body().toString());
+//                closeProgress();
+//            }
+//
+//            @Override
+//            public void onFailure(Call call, Throwable t) {
+//
+//            }
+//        });
+        //2，获得服务（通过服务接口）
+        Method_rxjava_post_service rxjava_post_service = retrofit.create(Method_rxjava_post_service.class);
+        //3,获取observable
+        Observable observable = rxjava_post_service.trans_result(trans_text);
+        //4,开始请求
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object weather) throws Exception {
+                        tvResultC.setText(weather.toString());
+                        closeProgress();
+                    }
+                });
     }
 
     private void test_id_card() {
@@ -94,52 +125,52 @@ public class NetRertofitActivity extends BaseActivity {
         JSONObject configObj = new JSONObject();
         configObj.put("side", "face");
         String config_str = configObj.toString();
-        HashMap<String,Object> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("configure", config_str);
         map.put("image", img_64);
         org.json.JSONObject jsonObject = new org.json.JSONObject(map);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject));
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject));
 
-        getRetrofit(base_url_json,true)
+        getRetrofit(base_url_json, false)
                 .create(Method_id_res.class)
                 .trans_result1(body)
                 .enqueue(new Callback<Object>() {
 
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                tvResultA.setText(String.valueOf(response.body()));
-                closeProgress();
-            }
+                    @Override
+                    public void onResponse(Call<Object> call, Response<Object> response) {
+                        tvResultA.setText(String.valueOf(response.body()));
+                        closeProgress();
+                    }
 
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                tvResultA.setText("查询失败：" + String.valueOf(t));
-                closeProgress();
-            }
+                    @Override
+                    public void onFailure(Call<Object> call, Throwable t) {
+                        tvResultA.setText("查询失败：" + String.valueOf(t));
+                        closeProgress();
+                    }
 
-        });
+                });
     }
 
     private void test_get() {
 
-        getRetrofit(base_url_get,true)
+        getRetrofit(base_url_get, true)
                 .create(Method_get_service.class)
                 .listrepos("octocat")
                 .enqueue(new Callback<Object>() {
 
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                tvResultB.setText(response.body().toString());
-                closeProgress();
-            }
+                    @Override
+                    public void onResponse(Call<Object> call, Response<Object> response) {
+                        tvResultB.setText(response.body().toString());
+                        closeProgress();
+                    }
 
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                tvResultB.setText("查询失败：" + String.valueOf(t));
-                closeProgress();
-            }
+                    @Override
+                    public void onFailure(Call<Object> call, Throwable t) {
+                        tvResultB.setText("查询失败：" + String.valueOf(t));
+                        closeProgress();
+                    }
 
-        });
+                });
     }
 
     /**
@@ -157,6 +188,15 @@ public class NetRertofitActivity extends BaseActivity {
         @POST("translate?doctype=json&jsonversion=&type=&keyfrom=&model=&mid=&imei=&vendor=&screen=&ssid=&network=&abtest=")
         @FormUrlEncoded
         Call<Object> trans_result(@Field("i") String data);
+    }
+
+    /**
+     * post方法的接口
+     */
+    private interface Method_rxjava_post_service {
+        @POST("translate?doctype=json&jsonversion=&type=&keyfrom=&model=&mid=&imei=&vendor=&screen=&ssid=&network=&abtest=")
+        @FormUrlEncoded
+        Observable<Object> trans_result(@Field("i") String data);
     }
 
     /**

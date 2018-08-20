@@ -42,11 +42,23 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/testIdCardResult"/>
 
-            <Button
-                android:id="@+id/bt_post_test"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/testPost"/>
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/bt_post_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/testPost"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_trans"
+                    android:hint="@string/trans_text"/>
+            </LinearLayout>
+
+
 
             <TextView
                 android:maxLines="5"

@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseActivity extends AppCompatActivity {
@@ -202,6 +203,7 @@ public class BaseActivity extends AppCompatActivity {
     protected Retrofit getRetrofit(String base_url,boolean isShowDialog) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(base_url)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         if (isShowDialog) {

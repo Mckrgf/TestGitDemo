@@ -7,4 +7,5 @@
     <string name="testIdCardResult">识别结果</string>
     <string name="testGet">测试get</string>
     <string name="testPost">测试post</string>
+    <string name="trans_text">请输入要翻译的文本</string>
 </resources>
