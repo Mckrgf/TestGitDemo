@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -143,7 +144,7 @@ public class HomeActivity extends BaseActivity {
         daoSession = ((App) getApplication()).getDaoSession();
         userDao = daoSession.getUserDao();
         //rx excute
-        excuteRX();
+//        excuteRX();
         ButterKnife.bind(this);
 
         //开启锁屏
@@ -151,11 +152,11 @@ public class HomeActivity extends BaseActivity {
 //        startService(lock_intent);
 
         intent_service = new Intent(getContext(), FallDetectionService.class);
-//        if (!Settings.canDrawOverlays(this)) {
-//            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-//            intent.setData(Uri.parse("package:" + getPackageName()));
-//            startActivityForResult(intent, 100);
-//        }
+        if (!Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, 100);
+        }
 
         //首字母转换
         final ArrayList<String> names = new ArrayList<>();
@@ -501,7 +502,7 @@ public class HomeActivity extends BaseActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!Settings.canDrawOverlays(this)) {
                     Log.i(TAG, "不能悬浮");
-                    ToastUtil.showToast(this, "请设置app可以悬浮");
+//                    ToastUtil.showToast(this, "请设置app可以悬浮");
                 } else {
                     Log.i(TAG, "可以悬浮");
                 }

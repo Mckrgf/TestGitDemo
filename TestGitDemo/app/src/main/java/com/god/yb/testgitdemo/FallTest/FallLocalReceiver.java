@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.god.yb.testgitdemo.R;
+import com.god.yb.testgitdemo.Utils.ToastUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,13 +41,15 @@ public class FallLocalReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "FallLocalReceiver.onReceive()");
         this.context = context;
-        showAlertDialog();
+//        showAlertDialog();
+
+        ToastUtil.showToast(context,"监测到跌落");
 
         sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
         isVibrate = sharedPreferences.getBoolean("pre_key_vibrate", true);
         if(isVibrate){
-            startVibrate();
+//            startVibrate();
         }
     }
 
